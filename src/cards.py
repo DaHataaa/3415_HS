@@ -74,7 +74,7 @@ class CItem(card):
                 "SPECIFIC_UNIT": self.spec_unit},f)
         
         
-class CPlace(card):
+class CLocation(card):
 
     def __init__(self, name, mn, dmg_boost, hp_boost, fract, spec_unit, timer):
         self.name = name
