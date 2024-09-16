@@ -1,6 +1,6 @@
-EnemyName
-Усп [OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO-----]
-МЗ  [OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO-----------------]
+ EnemyName
+ Усп [OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO-----]
+ МЗ  [OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO-----------------]
 
    .-------.  .-------.  .-------.  .-------.      .-------.
    |FRAC|MP|  |FRAC|MP|  |FRAC|MP|  |FRAC|MP|      |L|FR|MP|
@@ -31,3 +31,4 @@ EnemyName
  PlayerName
  Усп [OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO---------------]
  МЗ  [OOOOOOOOOOOOOOO-----------------------------------]
+
