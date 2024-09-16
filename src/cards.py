@@ -33,7 +33,7 @@ class Item(Card):
 
     def __init__(self,CLASS,name,fract,MN,DMG_BOOST,HP_BOOST):
         Card.__init__(self,CLASS,name,fract,MN)
-        self.DMF_BOOST = DMF_BOOST
+        self.DMG_BOOST = DMG_BOOST
         self.HP_BOOST = HP_BOOST
 
 
@@ -41,7 +41,7 @@ class Location(Card):
 
     def __init__(self,CLASS,name,fract,MN,DMG_BOOST,HP_BOOST):
         Card.__init__(self,CLASS,name,fract,MN)
-        self.DMF_BOOST = DMF_BOOST
+        self.DMG_BOOST = DMG_BOOST
         self.HP_BOOST = HP_BOOST
 
 
