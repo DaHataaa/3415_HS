@@ -1,0 +1,8 @@
+{
+	"class": "location",
+	"name": "Центральный толкан",
+	"fract": "MATH",
+	"MN": 20,
+	"DMG_BOOST": 5,
+	"HP_BOOST": 13
+}

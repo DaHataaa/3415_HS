@@ -1,0 +1,8 @@
+{
+	"class": "item",
+	"name": "Плашка оперативы",
+	"fract": "EVM",
+	"MN": 12,
+	"DMG_BOOST": 5,
+	"HP_BOOST": 2
+}
