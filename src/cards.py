@@ -13,6 +13,12 @@ class Card:
         self.fract = fract
         self.mn = mn
 
+    @staticmethod
+    def load(obj, file):
+        obj.name = file['name']
+        obj.fract = file['fract']
+        obj.mn = file['mn']
+
 
 class Unit(Card):
     def __init__(self, id, name, fract, mn, dmg, hp):
@@ -20,6 +26,16 @@ class Unit(Card):
         self.dmg = dmg
         self.hp = hp
         self.items = []
+
+
+    @classmethod
+    def load(cls, file):
+        obj = cls.__new__(cls)
+        super().load(obj, file)
+        obj.dmg = file['dmg']
+        obj.hp = file['hp']
+        obj.items = []
+        return obj
 
 
     def add_item(self, item):
@@ -38,6 +54,14 @@ class Item(Card):
         self.dmg_boost = dmg_boost
         self.hp_boost = hp_boost
 
+    @classmethod
+    def load(cls, file):
+        obj = cls.__new__(cls)
+        super().load(obj, file)
+        obj.dmg_boost = file['dmg_boost']
+        obj.hp_boost = file['hp_boost']
+        return obj
+
 
 class Location(Card):
     def __init__(self, id, name, fract, mn, dmg_boost, hp_boost):
@@ -46,9 +70,26 @@ class Location(Card):
         self.hp_boost = hp_boost
 
 
+    @classmethod
+    def load(cls, file):
+        obj = cls.__new__(cls)
+        super().load(obj, file)
+        obj.dmg_boost = file['dmg_boost']
+        obj.hp_boost = file['hp_boost']
+        return obj
+
+
 class Event(Card):
     def __init__(self, id, name, fract, mn):
         Card.__init__(self, id, name, fract, mn)
+
+
+    @classmethod
+    def load(cls, file):
+        obj = cls.__new__(cls)
+        super().load(obj, file)
+        return obj
+
 
 
 def load_cards(cards_repo):
@@ -59,18 +100,17 @@ def load_cards(cards_repo):
     for i in range(len(cards_list)):
         cards_list[i] = cards_list[i].replace('\n','')
         card_id = cards_list[i]
-
+        
         f = json.load(open(cards_repo+card_id+'.json',encoding='utf8'))
-
-        match f['class']:
-            case 'unit':
-                card = Unit(card_id,f['class'],f['name'],f['fract'],f['mn'],f['dmg'],f['hp'])
-            case 'item':
-                card = Item(card_id,f['class'],f['name'],f['fract'],f['mn'],f['dmg_boost'],f['hp_boost'])
-            case 'location':
-                card = Location(card_id,f['class'],f['name'],f['fract'],f['mn'],f['dmg_boost'],f['hp_boost'])
-            case 'event':
-                card = Event(card_id,f['class'],f['name'],f['fract'],f['mn'])
+        
+        lookup_table = {
+            'unit' : Unit.load,
+            'item' : Item.load,
+            'location' : Location.load,
+            'event' : Event.load,
+        }
+        
+        card = lookup_table[f['class']](f)
 
         cards[card_id] = card
 
