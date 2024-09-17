@@ -2,7 +2,7 @@
 	"class": "item",
 	"name": "Плашка оперативы",
 	"fract": "EVM",
-	"MN": 12,
-	"DMG_BOOST": 5,
-	"HP_BOOST": 2
+	"mn": 12,
+	"dmg_boost": 5,
+	"hp_boost": 2
 }

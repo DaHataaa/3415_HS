@@ -2,7 +2,7 @@
 	"class": "item",
 	"name": "Энигма",
 	"fract": "EVM",
-	"MN": 14,
-	"DMG_BOOST": 0,
-	"HP_BOOST": 6
+	"mn": 14,
+	"dmg_boost": 0,
+	"hp_boost": 6
 }

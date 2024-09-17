@@ -2,7 +2,7 @@
 	"class": "location",
 	"name": "Центральный толкан",
 	"fract": "MATH",
-	"MN": 20,
-	"DMG_BOOST": 5,
-	"HP_BOOST": 13
+	"mn": 20,
+	"dmg_boost": 5,
+	"hp_boost": 13
 }

@@ -2,7 +2,7 @@
 	"class": "unit",
 	"name": "Устюков",
 	"fract": "EVM",
-	"MN": 10,
-	"DMG": 5,
-	"HP": 13
+	"mn": 10,
+	"dmg": 5,
+	"hp": 13
 }

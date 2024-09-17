@@ -2,7 +2,7 @@
 	"class": "unit",
 	"name": "Нелюхин",
 	"fract": "MATH",
-	"MN": 12,
-	"DMG": 6,
-	"HP": 13
+	"mn": 12,
+	"dmg": 6,
+	"hp": 13
 }
