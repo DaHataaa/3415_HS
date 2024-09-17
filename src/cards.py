@@ -1,66 +1,54 @@
 import json
 
-
-
 cards_repo = '../cards/'
 
 errs = dict()
 errs['W-DF'] = ['WARN - DifFract']
 
 
-
 class Card:
-
-    def __init__(self, ID, CLASS, name, fract, MN):
-        self.ID = ID
-        self.CLASS = CLASS
+    def __init__(self, id, name, fract, mn):
+        self.id = id
         self.name = name
         self.fract = fract
-        self.MN = MN
-
-
+        self.mn = mn
 
 
 class Unit(Card):
-
-    def __init__(self, ID, CLASS, name, fract, MN, DMG, HP):
-        Card.__init__(self, ID, CLASS, name, fract, MN)
-        self.DMG = DMG
-        self.HP = HP
+    def __init__(self, id, name, fract, mn, dmg, hp):
+        Card.__init__(self, id, name, fract, mn)
+        self.dmg = dmg
+        self.hp = hp
         self.items = []
+
 
     def add_item(self, item):
         if item.fract == self.fract:
             self.items.append(item)
-            self.HP += item.HP_BOOST
-            self.DMG += item.DMG_BOOST
-
+            self.hp += item.hp_boost
+            self.dmg += item.dmg_boost
             return True
         else:
             return False
 
 
 class Item(Card):
-
-    def __init__(self, ID, CLASS, name, fract, MN, DMG_BOOST, HP_BOOST):
-        Card.__init__(self, ID, CLASS, name, fract, MN)
-        self.DMG_BOOST = DMG_BOOST
-        self.HP_BOOST = HP_BOOST
+    def __init__(self, id, name, fract, mn, dmg_boost, hp_boost):
+        Card.__init__(self, id, name, fract, mn)
+        self.dmg_boost = dmg_boost
+        self.hp_boost = hp_boost
 
 
 class Location(Card):
-
-    def __init__(self, ID, CLASS, name, fract, MN, DMG_BOOST, HP_BOOST):
-        Card.__init__(self, ID, CLASS, name, fract, MN)
-        self.DMG_BOOST = DMG_BOOST
-        self.HP_BOOST = HP_BOOST
+    def __init__(self, id, name, fract, mn, dmg_boost, hp_boost):
+        Card.__init__(self, id, name, fract, mn)
+        self.dmg_boost = dmg_boost
+        self.hp_boost = hp_boost
 
 
 class Event(Card):
-
-    def __init__(self, ID, CLASS, name, fract, MN):
-        Card.__init__(self, ID, CLASS, name, fract, MN)
-
+    def __init__(self, id, name, fract, mn):
+        Card.__init__(self, id, name, fract, mn)
 
 
 def load_cards(cards_repo):
@@ -76,13 +64,13 @@ def load_cards(cards_repo):
 
         match f['class']:
             case 'unit':
-                card = Unit(card_id,f['class'],f['name'],f['fract'],f['MN'],f['DMG'],f['HP'])
+                card = Unit(card_id,f['class'],f['name'],f['fract'],f['mn'],f['dmg'],f['hp'])
             case 'item':
-                card = Item(card_id,f['class'],f['name'],f['fract'],f['MN'],f['DMG_BOOST'],f['HP_BOOST'])
+                card = Item(card_id,f['class'],f['name'],f['fract'],f['mn'],f['dmg_boost'],f['hp_boost'])
             case 'location':
-                card = Location(card_id,f['class'],f['name'],f['fract'],f['MN'],f['DMG_BOOST'],f['HP_BOOST'])
+                card = Location(card_id,f['class'],f['name'],f['fract'],f['mn'],f['dmg_boost'],f['hp_boost'])
             case 'event':
-                card = Event(card_id,f['class'],f['name'],f['fract'],f['MN'])
+                card = Event(card_id,f['class'],f['name'],f['fract'],f['mn'])
 
         cards[card_id] = card
 
@@ -99,8 +87,8 @@ class Field:
 
 
 class Player:
-    def __init__(self, HP, MP, deck):
-        self.HP = HP
+    def __init__(self, hp, MP, deck):
+        self.hp = hp
         self.MP = MP
         self.stack = deck
         self.hand = ['']*4
@@ -110,6 +98,7 @@ class Player:
 
     def pop_from_stack(self):
         return self.stack.pop()
+
 
     def add_to_stack(self, card):
         self.stack = [card] + self.stack
@@ -128,8 +117,8 @@ class Player:
                     
             elif cfrom.CLASS == 'item':
                 cto = field.lower_part[ito]
-                if cto.add_item(cfrom) and self.MP >= cfrom.MN:
-                    self.MP -= cfrom.MN
+                if cto.add_item(cfrom) and self.MP >= cfrom.mn:
+                    self.MP -= cfrom.mn
 
             self.hand[ifrom] = self.pop_from_stack()
 
