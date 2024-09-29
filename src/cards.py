@@ -1,12 +1,13 @@
 import json
+import random
 
-cards_repo = "../cards/"
-
+cards_repo = "cards/"
 errs = dict()
 errs["W-DF"] = ["WARN - DifFract"]
 
 
 class Card:
+
     def __init__(self, id, name, fract, mn):
         self.id = id
         self.name = name
@@ -21,6 +22,7 @@ class Card:
 
 
 class Unit(Card):
+
     def __init__(self, id, name, fract, mn, dmg, hp):
         Card.__init__(self, id, name, fract, mn)
         self.dmg = dmg
@@ -47,6 +49,7 @@ class Unit(Card):
 
 
 class Item(Card):
+
     def __init__(self, id, name, fract, mn, dmg_boost, hp_boost):
         Card.__init__(self, id, name, fract, mn)
         self.dmg_boost = dmg_boost
@@ -62,6 +65,7 @@ class Item(Card):
 
 
 class Location(Card):
+
     def __init__(self, id, name, fract, mn, dmg_boost, hp_boost):
         Card.__init__(self, id, name, fract, mn)
         self.dmg_boost = dmg_boost
@@ -77,6 +81,7 @@ class Location(Card):
 
 
 class Event(Card):
+
     def __init__(self, id, name, fract, mn):
         Card.__init__(self, id, name, fract, mn)
 
@@ -88,11 +93,12 @@ class Event(Card):
 
 
 def load_cards(cards_repo):
-    cards_list = open(cards_repo + "cards_list.txt").readlines()
 
+    cards_list = open(cards_repo + "cards_list.txt").readlines()
     cards = dict()
 
     for i in range(len(cards_list)):
+
         cards_list[i] = cards_list[i].replace("\n", "")
         card_id = cards_list[i]
 
@@ -103,70 +109,78 @@ def load_cards(cards_repo):
             "item": Item.load,
             "location": Location.load,
             "event": Event.load,
-        }
+                        }
 
         card = lookup_table[f["class"]](f)
-
         cards[card_id] = card
 
     return cards, cards_list
 
+            
+class Player:
 
-class Field:
+    def __init__(self, hp, mp, stack):
+        self.hp = hp
+        self.mp = mp
+        self.stack = Stack(stack, {}, )
+        self.hand = Hand(self, stack[:4])
+
+    def get_dmg(self, dmg):
+        self.hp -= dmg#nr
+
+
+class Stack(Player):
+
+    def __init__(self, cards_in_game: dict, picked_stack: dict):
+        self.cing = cards_in_game
+        self.p_stack = picked_stack
+
+    def pop_card(self, card: Card):
+        super().hand.h_deck.pop(card.name)
+        
+    def add_card(self):
+        if self.cing != super().stack:
+            super().hand.h_deck.append(random.choice(super().stack - self.cing))
+        else:
+            print('Все доступные карты уже в игре. На руки не выдаются новые.')#nr
+
+
+class Field(Player):
+
     def __init__(self, upper_part, lower_part):
         self.upper_part = upper_part
         self.lower_part = lower_part
 
-    def place_a_card(self, slot, card):
-        self.lower_part[slot] = card
+    def place_unit(self, slot, card: Card):
+        if self.lower_part[slot] == '':
+            self.lower_part[slot] = card
+            super().mp -= card.mn  
+            super().stack.add_card()
+            super().stack.pop_card(card)
+        else:
+            print("Здесь уже есть юнит")#nr
 
 
-class Player:
-    def __init__(self, hp, MP, deck):
-        self.hp = hp
-        self.MP = MP
-        self.stack = deck
-        self.hand = [""] * 4
-        for i in range(4):
-            self.hand[i] = self.pop_from_stack()
+class Hand(Player):
 
-    def pop_from_stack(self):
-        return self.stack.pop()
+    def __init__(self, owner, h_deck: dict):
+        self.owner = owner
+        self.h_deck = h_deck
 
-    def add_to_stack(self, card):
-        self.stack = [card] + self.stack
-
-    def play_a_card(self, field, ifrom, ito):
-        cfrom = self.hand[ifrom]
-        if cfrom != "":
-            if cfrom.CLASS == "unit":
-                if field.lower_part[ito] == "":
-
-                    field.place_a_card(ito, cfrom)
-                else:
-                    pass
-
-            elif cfrom.CLASS == "item":
-                cto = field.lower_part[ito]
-                if cto.add_item(cfrom) and self.MP >= cfrom.mn:
-                    self.MP -= cfrom.mn
-
-            self.hand[ifrom] = self.pop_from_stack()
-
+    def play_card(self, card: Card, slot):
+        if super().mp >= card.mn:
+            match type(card):
+                case Unit:
+                    Field.place_unit(slot, card)#nr
+                
+            
 
 cards_e, cards_list = load_cards(cards_repo)
 cards_p = cards_e
 
 f = Field(["", "", "", ""], ["", "", "", ""])
+deck = [cards_e[cards_list[i]] for i in range(8)]
 
-
-deck = []
-
-
-for i in range(8):
-    deck.append(cards_e[cards_list[i]])
-
-
-f = Field(["", "", "", ""], ["", "", "", ""])
 
 p1 = Player(50, 50, deck)
+p2 = Player(50, 50, deck)
