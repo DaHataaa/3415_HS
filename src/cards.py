@@ -1,11 +1,91 @@
 import json
 import random
 
+
 cards_repo = "cards/"
 errs = dict()
 errs["W-DF"] = ["WARN - DifFract"]
 
+#################################################
 
+class Player:
+
+    def __init__(self, p_id, hp, mp, stack):
+        self.hp = hp
+        self.mp = mp
+        self.stack = Stack(stack, {})
+        self.hand = Hand(stack[:4])
+        self.field = Field("", ["","","",""])
+        self.p_id = p_id
+        self.e_id = 3 - p_id
+
+    def get_dmg(self, dmg):
+        self.hp -= dmg
+
+    def attack_with_a_unit(self, pl_slot, en_slot):
+        dmg_to_en = self.field.unit_part[pl_slot].dmg
+        en = players["p"+str(self.e_id)]
+        match en_slot:
+            case 0:
+                if en.field.unit_part[pl_slot] == "":
+                    en.get_dmg(dmg_to_en)
+                else:
+                    print("Перед игроком стоит преграда!")
+            case _:
+                en.field.unit_part[en_slot].get_dmg(dmg_to_en)
+
+
+class Stack(Player):
+
+    def __init__(self, cards_in_game: dict, picked_stack: dict):
+        self.cing = cards_in_game
+        self.p_stack = picked_stack
+
+    def pop_card(self, card):
+        super().hand.h_deck.pop(card.name)
+        self.cing[card.name] = card
+        
+    def add_card(self):
+        if self.cing != super().stack:
+            added_c = random.choice(super().stack - self.cing)
+            super().hand.h_deck.append(added_c)
+            self.cing[added_c.name] = added_c
+        else:
+            print('Все доступные карты уже в игре. На руки не выдаются новые.')#nr
+
+
+class Field(Player):
+
+    def __init__(self, location_part, unit_part):
+        self.unit_part = unit_part
+        self.loc_part = location_part
+
+    def place_unit(self, slot, card):
+        if self.unit_part[slot] == "":
+            self.unit_part[slot] = card
+            super().mp -= card.mn
+            super().stack.pop_card(card)
+        else:
+            print("Здесь уже есть юнит!")
+            
+    def kill_unit(self, card):
+        super().stack.cing.pop(card.name)
+        self.unit_part[self.unit_part.index(card)] = ""
+
+
+class Hand(Player):
+
+    def __init__(self, h_deck):
+        self.h_deck = h_deck
+
+    def play_card(self, card, slot):
+        if super().mp >= card.mn:
+            match type(card):
+                case Unit:
+                    Field.place_unit(slot, card)
+                
+#################################################
+            
 class Card:
 
     def __init__(self, id, name, fract, mn):
@@ -46,6 +126,11 @@ class Unit(Card):
             return True
         else:
             return False
+        
+    def get_dmg(self, dmg, player):
+        self.hp -= dmg
+        if self.hp <= 0:
+           player.field.kill_unit(self)
 
 
 class Item(Card):
@@ -116,71 +201,11 @@ def load_cards(cards_repo):
 
     return cards, cards_list
 
-            
-class Player:
-
-    def __init__(self, hp, mp, stack):
-        self.hp = hp
-        self.mp = mp
-        self.stack = Stack(stack, {}, )
-        self.hand = Hand(self, stack[:4])
-
-    def get_dmg(self, dmg):
-        self.hp -= dmg#nr
-
-
-class Stack(Player):
-
-    def __init__(self, cards_in_game: dict, picked_stack: dict):
-        self.cing = cards_in_game
-        self.p_stack = picked_stack
-
-    def pop_card(self, card: Card):
-        super().hand.h_deck.pop(card.name)
-        
-    def add_card(self):
-        if self.cing != super().stack:
-            super().hand.h_deck.append(random.choice(super().stack - self.cing))
-        else:
-            print('Все доступные карты уже в игре. На руки не выдаются новые.')#nr
-
-
-class Field(Player):
-
-    def __init__(self, upper_part, lower_part):
-        self.upper_part = upper_part
-        self.lower_part = lower_part
-
-    def place_unit(self, slot, card: Card):
-        if self.lower_part[slot] == '':
-            self.lower_part[slot] = card
-            super().mp -= card.mn  
-            super().stack.add_card()
-            super().stack.pop_card(card)
-        else:
-            print("Здесь уже есть юнит")#nr
-
-
-class Hand(Player):
-
-    def __init__(self, owner, h_deck: dict):
-        self.owner = owner
-        self.h_deck = h_deck
-
-    def play_card(self, card: Card, slot):
-        if super().mp >= card.mn:
-            match type(card):
-                case Unit:
-                    Field.place_unit(slot, card)#nr
-                
-            
+#################################################
 
 cards_e, cards_list = load_cards(cards_repo)
 cards_p = cards_e
-
-f = Field(["", "", "", ""], ["", "", "", ""])
 deck = [cards_e[cards_list[i]] for i in range(8)]
 
 
-p1 = Player(50, 50, deck)
-p2 = Player(50, 50, deck)
+players = {"p1" : Player(1, 50, 50, deck), "p2" : Player(2, 50, 50, deck)}
