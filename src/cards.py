@@ -2,26 +2,28 @@ import json
 import random
 
 
-cards_repo = "cards/"
-errs = dict()
-errs["W-DF"] = ["WARN - DifFract"]
+cards_repo = "../cards/"
 
 #################################################
 
 class Player:
 
-    def __init__(self, p_id, hp, mp, stack):
+    def __init__(self, hp, mp, field, hand, stack):
         self.hp = hp
         self.mp = mp
-        self.stack = Stack(stack, {})
-        self.hand = Hand(stack[:4])
-        self.field = Field("", ["","","",""])
-        self.p_id = p_id
-        self.e_id = 3 - p_id
+        self.field = field
+        self.hand = hand
+        self.stack = stack
 
-    def get_dmg(self, dmg):
-        self.hp -= dmg
+    def change_hp(self, delta_hp):
+        self.hp += delta_hp
 
+    def change_dmg(self, delta_dmg):
+        self.dmg += delta_dmg
+
+
+
+    '''
     def attack_with_a_unit(self, pl_slot, en_slot):
         dmg_to_en = self.field.unit_part[pl_slot].dmg
         en = players["p"+str(self.e_id)]
@@ -33,56 +35,45 @@ class Player:
                     print("Перед игроком стоит преграда!")
             case _:
                 en.field.unit_part[en_slot].get_dmg(dmg_to_en)
+    '''
 
+class Field:
 
-class Stack(Player):
+    def __init__(self, cards_list=[None]*5):
+        self.cards_list = cards_list
 
-    def __init__(self, cards_in_game: dict, picked_stack: dict):
-        self.cing = cards_in_game
-        self.p_stack = picked_stack
+    def get_card(self, index):
+        return self.cards_list[index]
 
-    def pop_card(self, card):
-        super().hand.h_deck.pop(card.name)
-        self.cing[card.name] = card
-        
-    def add_card(self):
-        if self.cing != super().stack:
-            added_c = random.choice(super().stack - self.cing)
-            super().hand.h_deck.append(added_c)
-            self.cing[added_c.name] = added_c
-        else:
-            print('Все доступные карты уже в игре. На руки не выдаются новые.')#nr
-
-
-class Field(Player):
-
-    def __init__(self, location_part, unit_part):
-        self.unit_part = unit_part
-        self.loc_part = location_part
-
-    def place_unit(self, slot, card):
-        if self.unit_part[slot] == "":
-            self.unit_part[slot] = card
-            super().mp -= card.mn
-            super().stack.pop_card(card)
-        else:
-            print("Здесь уже есть юнит!")
+    def place_card(self, card, index):
+        self.cards_list[index] = card
             
-    def kill_unit(self, card):
-        super().stack.cing.pop(card.name)
-        self.unit_part[self.unit_part.index(card)] = ""
+    def remove_card(self, index):
+        self.cards_list[index] = None
 
 
-class Hand(Player):
+class Hand(Field):
 
-    def __init__(self, h_deck):
-        self.h_deck = h_deck
+    def __init__(self, cards_list=[None]*4):
+        self.cards_list = cards_list
 
-    def play_card(self, card, slot):
-        if super().mp >= card.mn:
-            match type(card):
-                case Unit:
-                    Field.place_unit(slot, card)
+
+class Stack:
+
+    def __init__(self, cards_list=[]):
+        self.cards_list = cards_list
+
+    def get_card(self):
+        return self.cards_list[-1]
+
+    def push(card):
+        self.cards_list.insert(0,card)
+
+    def pop():
+        return self.cards_list.pop()
+
+
+
                 
 #################################################
             
@@ -118,7 +109,7 @@ class Unit(Card):
         obj.items = []
         return obj
 
-    def add_item(self, item):
+    def place_item(self, item):
         if item.fract == self.fract:
             self.items.append(item)
             self.hp += item.hp_boost
@@ -127,10 +118,10 @@ class Unit(Card):
         else:
             return False
         
-    def get_dmg(self, dmg, player):
-        self.hp -= dmg
-        if self.hp <= 0:
-           player.field.kill_unit(self)
+    #def get_dmg(self, dmg, player):
+        #self.hp -= dmg
+        #if self.hp <= 0:
+           #player.field.kill_unit(self)
 
 
 class Item(Card):
@@ -206,6 +197,3 @@ def load_cards(cards_repo):
 cards_e, cards_list = load_cards(cards_repo)
 cards_p = cards_e
 deck = [cards_e[cards_list[i]] for i in range(8)]
-
-
-players = {"p1" : Player(1, 50, 50, deck), "p2" : Player(2, 50, 50, deck)}
