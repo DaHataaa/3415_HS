@@ -11,23 +11,15 @@ class Player
   class hand
   class field
 
-  def drawCard(self, stack, hand)
-
-  def returnToStack(self, index):
-    stack.push(DECK[field[index].name].copy())
-
-  def playCard(indexFrom, indexTo):
-  card = hand.get(indexFrom)
-  match card.
-    if field.getCard(index) == None:
-      field.setCard(card, index)
+  def drawCard(self)
+  def playCard(self, indexFrom, indexTo)
     
   
 
 class Stack
   stack = list()
-  def push(card)
-  def pop() -> card
+  def push(self, card)
+  def pop(self) -> card
 
 
 class Hand
@@ -41,12 +33,22 @@ class Hand
 class Field
   cards = [card1, card2, card3, card4]
 
-  def getCard(index)
-  def setCard(card, index) #Если передать None то карта удалится
+  def getCard(self, index)
+  def setCard(self, card, index) # С логикой, запрещающей перезапись карт
+  def removeCard(self, index)
   
 
-Class Card
-  def Copy
+class Card
+  def Copy(self) -> Card
+
+class Unit(Card)
+
+class Item(Card)
+
+class Location(Card)
+
+class Event(Card)
+
 
 class Event
   activation_condition
