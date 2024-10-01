@@ -39,7 +39,9 @@ class Player:
 
 class Field:
 
-    def __init__(self, cards_list=[None] * 5):
+    def __init__(self, cards_list=None):
+        if cards_list == None:
+            cards_list = [None] * 5
         self.cards_list = cards_list
 
     def get_card(self, index):
