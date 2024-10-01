@@ -6,7 +6,6 @@ cards_repo = "../cards/"
 
 #################################################
 
-
 class Player:
 
     def __init__(self, hp, mp, field, hand, stack):
@@ -19,22 +18,8 @@ class Player:
     def change_hp(self, delta_hp):
         self.hp += delta_hp
 
-    def change_dmg(self, delta_dmg):
-        self.dmg += delta_dmg
-
-    """
-    def attack_with_a_unit(self, pl_slot, en_slot):
-        dmg_to_en = self.field.unit_part[pl_slot].dmg
-        en = players["p"+str(self.e_id)]
-        match en_slot:
-            case 0:
-                if en.field.unit_part[pl_slot] == "":
-                    en.get_dmg(dmg_to_en)
-                else:
-                    print("Перед игроком стоит преграда!")
-            case _:
-                en.field.unit_part[en_slot].get_dmg(dmg_to_en)
-    """
+    #def change_dmg(self, delta_dmg):   ?????
+    #    self.dmg += delta_dmg  ?????
 
 
 class Field:
@@ -42,24 +27,22 @@ class Field:
     def __init__(self, cards_list=None):
         if cards_list == None:
             cards_list = [None] * 5
-        self.cards_list = cards_list
 
     def get_card(self, index):
         return self.cards_list[index]
 
     def place_card(self, card, index):
         self.cards_list[index] = card
-
+            
     def remove_card(self, index):
         self.cards_list[index] = None
 
 
 class Hand(Field):
 
-    def __init__(self, cards_list=None):
+    def __init__(self, cards_list = None):
         if cards_list == None:
             cards_list = [None] * 4
-        self.cards_list = cards_list
 
 
 class Stack:
@@ -67,21 +50,21 @@ class Stack:
     def __init__(self, cards_list=None):
         if cards_list == None:
             cards_list = []
-        self.cards_list = cards_list
 
     def get_card(self):
         return self.cards_list[-1]
 
-    def push(card):
+    def push(self, card):
         self.cards_list.insert(0, card)
 
-    def pop():
+    def pop(self):
         return self.cards_list.pop()
 
 
+
+                
 #################################################
-
-
+            
 class Card:
 
     def __init__(self, id, name, fract, mn):
@@ -102,18 +85,16 @@ class Card:
         cards = dict()
 
         for i in range(len(cards_list)):
-
             cards_list[i] = cards_list[i].replace("\n", "")
             card_id = cards_list[i]
-
             f = json.load(open(cards_repo + card_id + ".json", encoding="utf8"))
-
+            
             lookup_table = {
                 "unit": Unit.load,
                 "item": Item.load,
                 "location": Location.load,
                 "event": Event.load,
-            }
+                            }
 
             card = lookup_table[f["class"]](f)
             cards[card_id] = card
@@ -128,6 +109,7 @@ class Unit(Card):
         self.dmg = dmg
         self.hp = hp
         self.items = []
+        self.field_index = None
 
     @classmethod
     def load(cls, file):
@@ -137,6 +119,9 @@ class Unit(Card):
         obj.hp = file["hp"]
         obj.items = []
         return obj
+    
+    def get_placed(self, index):
+        self.field_index = index
 
     def place_item(self, item):
         if item.fract == self.fract:
@@ -146,11 +131,11 @@ class Unit(Card):
             return True
         else:
             return False
-
-    # def get_dmg(self, dmg, player):
-    # self.hp -= dmg
-    # if self.hp <= 0:
-    # player.field.kill_unit(self)
+        
+    def reciev_dmg(self, dmg, player: Player):
+        self.hp -= dmg
+        if self.hp <= 0:
+           player.field.remove_card()
 
 
 class Item(Card):
@@ -159,6 +144,11 @@ class Item(Card):
         Card.__init__(self, id, name, fract, mn)
         self.dmg_boost = dmg_boost
         self.hp_boost = hp_boost
+        self.field_index = None
+
+    def get_placed(self, index, field: Field):
+        self.field_index = index
+        field.get_card[index].place_item(self)
 
     @classmethod
     def load(cls, file):
@@ -196,6 +186,30 @@ class Event(Card):
         super().load(obj, file)
         return obj
 
+
+def load_cards(cards_repo):
+
+    cards_list = open(cards_repo + "cards_list.txt").readlines()
+    cards = dict()
+
+    for i in range(len(cards_list)):
+
+        cards_list[i] = cards_list[i].replace("\n", "")
+        card_id = cards_list[i]
+
+        f = json.load(open(cards_repo + card_id + ".json", encoding="utf8"))
+
+        lookup_table = {
+            "unit": Unit.load,
+            "item": Item.load,
+            "location": Location.load,
+            "event": Event.load,
+                        }
+
+        card = lookup_table[f["class"]](f)
+        cards[card_id] = card
+
+    return cards, cards_list
 
 #################################################
 
