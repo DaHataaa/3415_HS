@@ -8,9 +8,10 @@ cards_repo = "../cards/"
 
 class Player:
 
-    def __init__(self, hp, mp, field, hand, stack):
+    def __init__(self, hp, mp, max_mp, field, hand, stack):
         self.hp = hp
         self.mp = mp
+        self.max_mp = max_mp
         self.field = field
         self.hand = hand
         self.stack = stack
@@ -18,8 +19,8 @@ class Player:
     def change_hp(self, delta_hp):
         self.hp += delta_hp
 
-    #def change_dmg(self, delta_dmg):   ?????
-    #    self.dmg += delta_dmg  ?????
+    def change_mp(self, delta_mp):
+        self.mp += delta_mp
 
 
 class Field:
@@ -31,11 +32,14 @@ class Field:
     def get_card(self, index):
         return self.cards_list[index]
 
+    def get_card_index(self, card):
+        return self.cards_list.index(card)
+
     def place_card(self, card, index):
         self.cards_list[index] = card
             
-    def remove_card(self, index):
-        self.cards_list[index] = None
+    def remove_card(self, card):
+        self.cards_list[self.get_card_index(card)] = None
 
 
 class Hand(Field):
@@ -51,7 +55,7 @@ class Stack:
         if cards_list == None:
             cards_list = []
 
-    def get_card(self):
+    def get_top_card(self):
         return self.cards_list[-1]
 
     def push(self, card):
@@ -61,10 +65,9 @@ class Stack:
         return self.cards_list.pop()
 
 
-
-                
 #################################################
             
+
 class Card:
 
     def __init__(self, id, name, fract, mn):
@@ -109,7 +112,6 @@ class Unit(Card):
         self.dmg = dmg
         self.hp = hp
         self.items = []
-        self.field_index = None
 
     @classmethod
     def load(cls, file):
@@ -119,9 +121,6 @@ class Unit(Card):
         obj.hp = file["hp"]
         obj.items = []
         return obj
-    
-    def get_placed(self, index):
-        self.field_index = index
 
     def place_item(self, item):
         if item.fract == self.fract:
@@ -132,10 +131,10 @@ class Unit(Card):
         else:
             return False
         
-    def reciev_dmg(self, dmg, player: Player):
+    def recieve_dmg(self, dmg, player: Player):
         self.hp -= dmg
         if self.hp <= 0:
-           player.field.remove_card()
+           player.field.remove_card(self)
 
 
 class Item(Card):
@@ -144,10 +143,8 @@ class Item(Card):
         Card.__init__(self, id, name, fract, mn)
         self.dmg_boost = dmg_boost
         self.hp_boost = hp_boost
-        self.field_index = None
 
     def get_placed(self, index, field: Field):
-        self.field_index = index
         field.get_card[index].place_item(self)
 
     @classmethod
