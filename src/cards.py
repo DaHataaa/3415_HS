@@ -70,17 +70,11 @@ class Stack:
 
 class Card:
 
-    def __init__(self, id, name, fract, mn):
-        self.id = id
-        self.name = name
-        self.fract = fract
-        self.mn = mn
-
-    @staticmethod
-    def load(obj, file):
-        obj.name = file["name"]
-        obj.fract = file["fract"]
-        obj.mn = file["mn"]
+    def __init__(self, f):
+        id=f.["id"],
+        name=f["name"],
+        fract=f["fract"],
+        mn=f["mn"]
 
     @staticmethod
     def load_cards(cards_repo):
@@ -107,20 +101,12 @@ class Card:
 
 class Unit(Card):
 
-    def __init__(self, id, name, fract, mn, dmg, hp):
-        Card.__init__(self, id, name, fract, mn)
-        self.dmg = dmg
-        self.hp = hp
+    def __init__(self, f):
+        Card.__init__(self, f)
+        self.dmg = f["dmg"]
+        self.hp = f["hp"]
         self.items = []
 
-    @classmethod
-    def load(cls, file):
-        obj = cls.__new__(cls)
-        super().load(obj, file)
-        obj.dmg = file["dmg"]
-        obj.hp = file["hp"]
-        obj.items = []
-        return obj
 
     def place_item(self, item):
         if item.fract == self.fract:
@@ -139,77 +125,27 @@ class Unit(Card):
 
 class Item(Card):
 
-    def __init__(self, id, name, fract, mn, dmg_boost, hp_boost):
-        Card.__init__(self, id, name, fract, mn)
-        self.dmg_boost = dmg_boost
-        self.hp_boost = hp_boost
+    def __init__(self, f):
+        Card.__init__(self, f)
+        self.dmg_boost = f["dmg_boost"]
+        self.hp_boost = f["hp_boost"]
 
     def get_placed(self, index, field: Field):
         field.get_card[index].place_item(self)
 
-    @classmethod
-    def load(cls, file):
-        obj = cls.__new__(cls)
-        super().load(obj, file)
-        obj.dmg_boost = file["dmg_boost"]
-        obj.hp_boost = file["hp_boost"]
-        return obj
-
 
 class Location(Card):
 
-    def __init__(self, id, name, fract, mn, dmg_boost, hp_boost):
-        Card.__init__(self, id, name, fract, mn)
-        self.dmg_boost = dmg_boost
-        self.hp_boost = hp_boost
-
-    @classmethod
-    def load(cls, file):
-        obj = cls.__new__(cls)
-        super().load(obj, file)
-        obj.dmg_boost = file["dmg_boost"]
-        obj.hp_boost = file["hp_boost"]
-        return obj
+    def __init__(self, f):
+        Card.__init__(self, f)
+        self.dmg_boost = f["dmg_boost"]
+        self.hp_boost = f["hp_boost"]
 
 
 class Event(Card):
 
-    def __init__(self, id, name, fract, mn):
-        Card.__init__(self, id, name, fract, mn)
-
-    @classmethod
-    def load(cls, file):
-        obj = cls.__new__(cls)
-        super().load(obj, file)
-        return obj
+    def __init__(self, f):
+        Card.__init__(self, f)
 
 
-def load_cards(cards_repo):
 
-    cards_list = open(cards_repo + "cards_list.txt").readlines()
-    cards = dict()
-
-    for i in range(len(cards_list)):
-
-        cards_list[i] = cards_list[i].replace("\n", "")
-        card_id = cards_list[i]
-
-        f = json.load(open(cards_repo + card_id + ".json", encoding="utf8"))
-
-        lookup_table = {
-            "unit": Unit.load,
-            "item": Item.load,
-            "location": Location.load,
-            "event": Event.load,
-                        }
-
-        card = lookup_table[f["class"]](f)
-        cards[card_id] = card
-
-    return cards, cards_list
-
-#################################################
-
-cards_e, cards_list = load_cards(cards_repo)
-cards_p = cards_e
-deck = [cards_e[cards_list[i]] for i in range(8)]
