@@ -1,12 +1,11 @@
 import json
-import random
 
 
 cards_repo = "../cards/"
 
 #################################################
 
-class Player:
+class Player(Card):
 
     def __init__(self, hp, mp, max_mp, field, hand, stack):
         self.hp = hp
@@ -109,18 +108,18 @@ class Unit(Card):
 
 
     def place_item(self, item):
-        if item.fract == self.fract:
-            self.items.append(item)
-            self.hp += item.hp_boost
-            self.dmg += item.dmg_boost
-            return True
-        else:
+        if item.fract != self.fract:
             return False
+        self.items.append(item)
+        self.hp += item.hp_boost
+        self.dmg += item.dmg_boost
+        return True
         
-    def recieve_dmg(self, dmg, player: Player):
+    def recieve_dmg(self, dmg) -> bool:
         self.hp -= dmg
         if self.hp <= 0:
-           player.field.remove_card(self)
+            return True
+        return False
 
 
 class Item(Card):
@@ -130,12 +129,8 @@ class Item(Card):
         self.dmg_boost = f["dmg_boost"]
         self.hp_boost = f["hp_boost"]
 
-    def get_placed(self, index, field: Field):
-        field.get_card[index].place_item(self)
-
 
 class Location(Card):
-
     def __init__(self, f):
         Card.__init__(self, f)
         self.dmg_boost = f["dmg_boost"]
@@ -143,7 +138,6 @@ class Location(Card):
 
 
 class Event(Card):
-
     def __init__(self, f):
         Card.__init__(self, f)
 

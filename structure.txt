@@ -1,15 +1,16 @@
 DECK = dict(все карты)
 
-class Game_Instance
-  Players: me, enemy
+class GameServer
+  Players: [p0, p1]
+
+  def run()
+  def makeTurn()
   
 
-class Player
-  hp
-  mz
-  class stack
-  class hand
-  class field
+class Player(Card)
+  Stack stack
+  Hand hand
+  Field field
 
   def drawCard(self)
   def playCard(self, indexFrom, indexTo)
@@ -49,10 +50,3 @@ class Location(Card)
 
 class Event(Card)
 
-
-class Event
-  activation_condition
-  exit_condition
-
-  def куча_condition-ов:
-  
