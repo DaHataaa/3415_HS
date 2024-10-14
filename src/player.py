@@ -1,4 +1,5 @@
 from cards import *
+from enum import Enum
 
 class Player(Card):
 
@@ -21,19 +22,28 @@ class Field:
 
     def __init__(self, cards_list=None):
         if cards_list == None:
-            cards_list = [None] * 5
+            cards_list = [None] * 6
+
+    class FieldNames(Enum):
+        UNIT1 = 0
+        UNIT2 = 1
+        UNIT3 = 2
+        UNIT4 = 3
+        LOCATION = 4
+        PLAYER = 5
+
 
     def get_card(self, index):
         return self.cards_list[index]
 
-    def get_card_index(self, card):
-        return self.cards_list.index(card)
-
     def place_card(self, card, index):
         self.cards_list[index] = card
             
-    def remove_card(self, card):
-        self.cards_list[self.get_card_index(card)] = None
+    def remove_card(self, index):
+        old_card = self.cards_list[index]
+        self.cards_list[index] = None
+        new_card = DECK[old_card.id].copy()
+        return new_card
 
 
 class Hand(Field):
