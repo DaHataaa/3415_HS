@@ -5,7 +5,11 @@ class GameServer
 
   def run()
   def makeTurn()
-  
+  def attack(self, i_from, i_to)
+  def play_card(self, i_from, i_to)
+  def play_item(self, i_from, i_to)
+  def swap(self)
+  def next_turn(self)
 
 class PlayerCard(Unit)
   def save(self) -> dict
