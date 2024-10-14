@@ -40,7 +40,7 @@ class Unit(Card):
         self.items = []
 
 
-    def place_item(self, item):
+    def recieve_item(self, item):
         if item.fract != self.fract:
             return False
         self.items.append(item)
@@ -78,8 +78,11 @@ class PlayerUnit(Unit):
     def __init__(self, hp, mp, mana_delta):
         Unit.__init__(self)
         self.hp = hp
-        self.mp = mp
+        self.mana = mp
         self.mana_delta = mana_delta
+
+    def change_mana(self, dm = self.mana_delta):
+        self.mana += dm
 
 
 

@@ -7,11 +7,21 @@ class Player:
         self.field = field
         self.hand = hand
         self.stack = stack
-    def change_hp(self, delta_hp):
-        self.hp += delta_hp
 
-    def change_mp(self, delta_mp):
-        self.mp += delta_mp
+    def play_card(self, i_from, i_to):
+        mana_need = self.field[i_from].mn
+
+        if mana_need <= self.field[PLAYER].mana:
+            self.field[PLAYER].change_mana(-mana_need)
+            self.field.place_card(self.hand[i_from],i_to)
+
+
+    def play_item(self, i_from, i_to):
+        mana_need = self.field[i_from].mn
+
+        if mana_need <= self.field[PLAYER].mana:
+            self.field[i_to].recieve_item(self.hand[i_from])
+
 
 
 class Field:
