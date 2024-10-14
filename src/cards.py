@@ -74,3 +74,14 @@ class Event(Card):
     def __init__(self, f):
         Card.__init__(self, f)
 
+class PlayerUnit(Unit):
+    def __init__(self, hp, mp, mana_delta):
+        Unit.__init__(self)
+        self.hp = hp
+        self.mp = mp
+        self.mana_delta = mana_delta
+
+
+
+
+
