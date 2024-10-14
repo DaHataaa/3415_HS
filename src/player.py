@@ -1,16 +1,13 @@
 from cards import *
 from enum import Enum
 
-class Player(Card):
+class Player:
 
-    def __init__(self, hp, mp, max_mp, field, hand, stack):
-        self.hp = hp
-        self.mp = mp
+    def __init__(self, max_mp, field, hand, stack):
         self.max_mp = max_mp
         self.field = field
         self.hand = hand
         self.stack = stack
-
     def change_hp(self, delta_hp):
         self.hp += delta_hp
 
