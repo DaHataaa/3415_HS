@@ -7,7 +7,11 @@ class GameServer
   def makeTurn()
   
 
-class Player(Card)
+class PlayerCard(Unit)
+  def save(self) -> dict
+  def load(self) -> Card
+
+class Player()
   Stack stack
   Hand hand
   Field field
@@ -32,21 +36,40 @@ class Hand
   
 
 class Field
-  cards = [card1, card2, card3, card4]
+  cards = [None] * 6
+  cards[5] = playerCard
 
   def getCard(self, index)
-  def setCard(self, card, index) # С логикой, запрещающей перезапись карт
+  def setUnit(self, card, index) # С логикой, запрещающей перезапись карт
+  def setLocation(self, catd) # локация в одном месте хранится - cards[4]
   def removeCard(self, index)
   
 
 class Card
-  def Copy(self) -> Card
+  def copy(self) -> Card
+  def save(self) -> dict
+  def load(self) -> Card
+
+  classmethod loadCards(path) -> dict # дека всех карт, отсюда будут копироваться свежие карты
 
 class Unit(Card)
+  def copy(self) -> Card
+  def save(self) -> dict
+  def load(self) -> Card
 
 class Item(Card)
+  def copy(self) -> Card
+  def save(self) -> dict
+  def load(self) -> Card
 
 class Location(Card)
+  def copy(self) -> Card
+  def save(self) -> dict
+  def load(self) -> Card
 
 class Event(Card)
+  def copy(self) -> Card
+  def save(self) -> dict
+  def load(self) -> Card
+
 
