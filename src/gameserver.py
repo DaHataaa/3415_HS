@@ -16,11 +16,12 @@ class GameServer:
 			self.attacker.play_card(i_from, i_to)
 
 
-	def swap(self):
-		self.turn ^= 1
+	def swap_players(self):
+		self.attacker, self.defender = self.defender, self.attacker
 
 
 	def next_turn(self):
 		self.defender.change_mana()
+		self.swap_players()
 
-		self.attacker, self.defender = self.defender, self.attacker
+		
