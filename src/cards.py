@@ -57,6 +57,9 @@ class Unit(Card):
     def get_dmg(self):
         return self.dmg
 
+    def get_hp(self):
+        return self.hp
+
 
 class Item(Card):
 

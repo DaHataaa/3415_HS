@@ -19,7 +19,7 @@ class Player:
 
     def change_card_dmg(self, index, d_dmg):
         self.field[index].change_card_dmg(d_dmg)
-
+        
 
 
     def can_play_card(self, i_from, i_to):
