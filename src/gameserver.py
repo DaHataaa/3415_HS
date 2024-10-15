@@ -8,11 +8,12 @@ class GameServer:
 
 
 	def attack(self, i_from, i_to):
-		self.defender.change_card_hp(self.attacker.field[i_from].dmg)
+		self.defender.change_card_hp(self.attacker.get_dmg(i_from))
 
 
 	def play_card(self, i_from, i_to):
-		self.attacker.play_card(i_from, i_to)
+		if self.attacker.can_play_card(i_from, i_to):
+			self.attacker.play_card(i_from, i_to)
 
 
 	def swap(self):

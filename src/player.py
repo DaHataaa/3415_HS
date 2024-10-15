@@ -10,6 +10,10 @@ class Player:
         self.stack = stack
 
 
+    def get_dmg(self, index):
+        return self.field.get_card(index).get_dmg()
+
+
     def change_card_hp(self, index, d_hp):
         self.field[index].change_card_hp(d_hp)
 
@@ -17,43 +21,44 @@ class Player:
         self.field[index].change_card_dmg(d_dmg)
 
 
-    def play_card(self, i_from, i_to):
+
+    def can_play_card(self, i_from, i_to):
         card_from = self.hand.get_card(i_from)
+        card_to = self.hand.get_card(i_to)
         if card_from == None:
             return 1
         
         mana_need = card_from.mn
-        is_location = isinstance(card_from, Location)
-        if is_location^1:
-            is_item = isinstance(card_from, Item)
-            if is_item^1:
-                is_unit = isinstance(card_from, Unit)
 
-        if mana_need <= self.field[PLAYER].mana:
-            return 1
+        if isinstance(card_from, Location):
+            if i_to == Field.FieldNames.LOCATION and card_to == None:
+                return True
+        elif isinstance(card_from, Unit):
+            if i_to < Field.FieldNames.PLAYER and card_to == None:
+                return True
+        elif isinstance(card_from, Item):
+            if i_to < Field.FieldNames.PLAYER and card_to != None and card_to.fract == card_from.fract:
+                return True
+        elif isinstance(card_from, Event):
+            1
 
-        condition_location = is_location and i_to == Field.FieldNames.LOCATION
-        condition_to_first4 = i_to < Field.FieldNames.PLAYER
-        condition_unit = is_unit and condition_to_first4
-        condition_free_space = self.field.get_card(i_to) == None
+        return False
 
-        if condition_free_space:
-            allow_placing = condition_location or condition_unit
-        elif is_item and condition_to_first4:
-            card_to = self.field.get_card(i_to)
-            allow_equipping = card_to.fract == card_from.fract
 
-        
-        if allow_placing:
-            self.hand.remove_card(i_from)
-            self.hand.place_card(self.stack.pop())
+
+    def play_card(self, i_from, i_to):
+        card_from = self.hand.get_card(i_from)
+
+        self.hand.remove_card(i_from)
+        self.hand.place_card(self.stack.pop())
+
+        if self.field.get_card(i_to) == None:
             self.field.place_card(card_from,i_to)
-
-            self.field[PLAYER].change_mana(-mana_need)
-
-
-        elif allow_equipping:
+        else:
             self.field[i_to].recieve_item(card_from)
+
+
+        self.field[PLAYER].change_mana(-card_from.mn)
 
 
 class Field:
@@ -108,6 +113,6 @@ class Stack:
         self.cards_list.insert(0, card)
 
     def pop(self):
-        return self.cards_list.pop()
+        return self.cards_list.pop() #todo: pop from empty stack!!!
 
 
