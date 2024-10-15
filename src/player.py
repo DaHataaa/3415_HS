@@ -9,35 +9,70 @@ class Player:
         self.hand = hand
         self.stack = stack
 
+
+    def change_card_hp(self, index, d_hp):
+        self.field[index].change_card_hp(d_hp)
+
+    def change_card_dmg(self, index, d_dmg):
+        self.field[index].change_card_dmg(d_dmg)
+
+
     def play_card(self, i_from, i_to):
-        mana_need = self.field[i_from].mn
+        card_from = self.hand.get_card(i_from)
+        if card_from == None:
+            return 1
+        
+        mana_need = card_from.mn
+        is_location = isinstance(card_from, Location)
+        if is_location^1:
+            is_item = isinstance(card_from, Item)
+            if is_item^1:
+                is_unit = isinstance(card_from, Unit)
 
         if mana_need <= self.field[PLAYER].mana:
+            return 1
+
+        condition_location = is_location and i_to == Field.FieldNames.LOCATION
+        condition_to_first4 = i_to < Field.FieldNames.PLAYER
+        condition_unit = is_unit and condition_to_first4
+        condition_free_space = self.field.get_card(i_to) == None
+
+        if condition_free_space:
+            allow_placing = condition_location or condition_unit
+        elif is_item and condition_to_first4:
+            card_to = self.field.get_card(i_to)
+            allow_equipping = card_to.fract == card_from.fract
+
+        
+        if allow_placing:
+            self.hand.remove_card(i_from)
+            self.hand.place_card(self.stack.pop())
+            self.field.place_card(card_from,i_to)
+
             self.field[PLAYER].change_mana(-mana_need)
-            self.field.place_card(self.hand[i_from],i_to)
 
 
-    def play_item(self, i_from, i_to):
-        mana_need = self.field[i_from].mn
-
-        if mana_need <= self.field[PLAYER].mana:
-            self.field[i_to].recieve_item(self.hand[i_from])
-
+        elif allow_equipping:
+            self.field[i_to].recieve_item(card_from)
 
 
 class Field:
 
-    def __init__(self, cards_list=None):
-        if cards_list == None:
-            cards_list = [None] * 6
+    
 
     class FieldNames(Enum):
         UNIT1 = 0
         UNIT2 = 1
         UNIT3 = 2
         UNIT4 = 3
-        LOCATION = 4
-        PLAYER = 5
+        PLAYER = 4
+        LOCATION = 5
+
+
+    def __init__(self, cards_list=None):
+        if cards_list == None:
+            cards_list = [None] * len(FieldNames)
+        
 
 
     def get_card(self, index):

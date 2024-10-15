@@ -2,21 +2,17 @@ from player import*
 from cards import*
 
 class GameServer:
-	def __init__(self,players):
-		self.players = players
-		self.turn = 0
+	def __init__(self,p1,p2):
+		self.atacker = p1
+		self.defender = p2
 
 
 	def attack(self, i_from, i_to):
-		self.players[self.turn^1].field[i_to].recieve_dmg(self.players[self.turn].field[i_from].dmg)
+		self.defender.change_card_hp(self.attacker.field[i_from].dmg)
 
 
 	def play_card(self, i_from, i_to):
-		self.players[self.turn].play_card(i_from, i_to)
-
-
-	def play_item(self, i_from, i_to):
-		self.players[self.turn].play_item(i_from, i_to)
+		self.attacker.play_card(i_from, i_to)
 
 
 	def swap(self):
@@ -24,6 +20,6 @@ class GameServer:
 
 
 	def next_turn(self):
-		self.swap()
+		self.defender.change_mana()
 
-		self.players[self.turn].recieve_mana()
+		self.attacker, self.defender = self.defender, self.attacker

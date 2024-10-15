@@ -39,6 +39,8 @@ class Unit(Card):
         self.hp = f["hp"]
         self.items = []
 
+        
+
 
     def recieve_item(self, item):
         if item.fract != self.fract:
@@ -48,11 +50,14 @@ class Unit(Card):
         self.dmg += item.dmg_boost
         return True
         
-    def recieve_dmg(self, dmg) -> bool:
-        self.hp -= dmg
-        if self.hp <= 0:
-            return True
-        return False
+    def change_dmg(self, d_dmg):
+        self.dmg += d_dmg
+
+    def change_hp(self, d_hp):
+        self.hp += d_hp
+
+    def get_type():
+        return 'Unit'
 
 
 class Item(Card):
