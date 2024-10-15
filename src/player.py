@@ -19,7 +19,7 @@ class Player:
 
     def change_card_dmg(self, index, d_dmg):
         self.field[index].change_card_dmg(d_dmg)
-        
+
 
 
     def can_play_card(self, i_from, i_to):
@@ -55,10 +55,10 @@ class Player:
         if self.field.get_card(i_to) == None:
             self.field.place_card(card_from,i_to)
         else:
-            self.field[i_to].recieve_item(card_from)
+            self.field.cards_list[i_to].recieve_item(card_from)
 
 
-        self.field[PLAYER].change_mana(-card_from.mn)
+        self.field.cards_list[PLAYER].change_mana(-card_from.mn)
 
 
 class Field:
