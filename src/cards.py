@@ -2,11 +2,11 @@ import json
          
 class Card:
 
-    def __init__(self, f):
-        id=f["id"],
-        name=f["name"],
-        fract=f["fract"],
-        mn=f["mn"]
+    def __init__(self, id, name, fract, mn):
+        self.id = id
+        self.name = name,
+        self.fract = fract,
+        self.mn = mn
 
     @staticmethod
     def load_cards(cards_repo):
@@ -33,10 +33,14 @@ class Card:
 
 class Unit(Card):
 
-    def __init__(self, f):
-        Card.__init__(self, f)
-        self.dmg = f["dmg"]
-        self.hp = f["hp"]
+    def __init__(self, id, name, fract, mn, dmg, hp):
+        Card.__init__(self,
+                      id=id,
+                      name=name,
+                      fract=fract,
+                      mn=mn)
+        self.dmg = dmg
+        self.hp = hp
         self.items = []
 
 
@@ -47,7 +51,7 @@ class Unit(Card):
         self.hp += item.hp_boost
         self.dmg += item.dmg_boost
         return True
-        
+
     def change_dmg(self, d_dmg):
         self.dmg += d_dmg
 
@@ -63,22 +67,35 @@ class Unit(Card):
 
 class Item(Card):
 
-    def __init__(self, f):
-        Card.__init__(self, f)
-        self.dmg_boost = f["dmg_boost"]
-        self.hp_boost = f["hp_boost"]
+    def __init__(self, id, name, fract, mn, dmg_boost, hp_boost):
+        Card.__init__(self,
+                      id=id,
+                      name=name,
+                      fract=fract,
+                      mn=mn)
+        self.dmg_boost = dmg_boost
+        self.hp_boost = hp_boost
 
 
 class Location(Card):
-    def __init__(self, f):
-        Card.__init__(self, f)
-        self.dmg_boost = f["dmg_boost"]
-        self.hp_boost = f["hp_boost"]
+    def __init__(self, id, name, fract, mn, dmg_boost, hp_boost):
+        Card.__init__(self,
+                      id=id,
+                      name=name,
+                      fract=fract,
+                      mn=mn)
+        self.dmg_boost = dmg_boost
+        self.hp_boost = hp_boost
 
 
 class Event(Card):
-    def __init__(self, f):
-        Card.__init__(self, f)
+    def __init__(self, id, name, fract, mn):
+        Card.__init__(self,
+                      id=id,
+                      name=name,
+                      fract=fract,
+                      mn=mn)
+
 
 class PlayerUnit(Unit):
     def __init__(self, hp, mp, mana_delta):
