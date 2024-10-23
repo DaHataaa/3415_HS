@@ -5,8 +5,8 @@ class Card:
 
     def __init__(self, id, name, fract, mn):
         self.id = id
-        self.name = (name,)
-        self.fract = (fract,)
+        self.name = name
+        self.fract = fract
         self.mn = mn
 
     @classmethod
