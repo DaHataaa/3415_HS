@@ -10,10 +10,10 @@ class Card:
         self.mn = mn
 
     def __eq__(self, other):
-        if self.id == other.id and
+        if (self.id == other.id and 
            self.name == other.name and
            self.fract == other.fract and
-           self.mn == other.mn:
+           self.mn == other.mn):
            return True
         return False
 
@@ -65,10 +65,10 @@ class Unit(Card):
         )
 
     def __eq__(self, other):
-        if Card.__eq__(self, other) and
+        if (Card.__eq__(self, other) and
            self.dmg == other.dmg and
            self.hp == other.hp and
-           self.items == other.items: #todo: fix (lists compair)
+           self.items == other.items): #todo: fix (lists compair)
            return True
         return False
 
@@ -101,9 +101,9 @@ class Item(Card):
         self.hp_boost = hp_boost
 
     def __eq__(self, other):
-        if Card.__eq__(self, other) and
+        if (Card.__eq__(self, other) and
            self.dmg_boost == other.dmg_boost and
-           self.hp_boost == other.hp_boost:
+           self.hp_boost == other.hp_boost):
            return True
         return False
 
@@ -128,9 +128,9 @@ class Location(Card):
         self.hp_boost = hp_boost
 
     def __eq__(self, other):
-        if Card.__eq__(self, other) and
+        if (Card.__eq__(self, other) and
            self.dmg_boost == other.dmg_boost and
-           self.hp_boost == other.hp_boost:
+           self.hp_boost == other.hp_boost):
            return True
         return False
 
@@ -166,9 +166,9 @@ class PlayerUnit(Unit):
         self.mana_delta = mana_delta
 
     def __eq__(self, other):
-        if self.hp == other.hp and
+        if (self.hp == other.hp and
            self.mana == other.mana and
-           self.mana_delta = other.mana_delta:
+           self.mana_delta == other.mana_delta):
            return True
         return False
 
