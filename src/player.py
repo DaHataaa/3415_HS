@@ -9,13 +9,12 @@ from stack import Stack
 
 class Player:
 
-    def __init__(self, max_mp, field, hand, stack):
-        self.max_mp = max_mp
+    def __init__(self, field, hand, stack):
         self.field = field
         self.hand = hand
         self.stack = stack
 
-    def get_dmg(self, index):
+    def get_card_dmg(self, index):
         return self.field.get_card(index).get_dmg()
 
     def change_card_hp(self, index, d_hp):

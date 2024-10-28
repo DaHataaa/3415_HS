@@ -161,12 +161,13 @@ class Event(Card):
 class PlayerUnit(Unit):
     def __init__(self, hp, mp, mana_delta):
         self.hp = hp
-        self.mana = mp
+        self.max_mana, self.current_mana = mp, mp
         self.mana_delta = mana_delta
 
     def __eq__(self, other):
         if (self.hp == other.hp and
-           self.mana == other.mana and
+           self.max_mana == other.max_mana and
+           self.current_mana == other.current_mana and
            self.mana_delta == other.mana_delta):
            return True
         return False
@@ -177,4 +178,4 @@ class PlayerUnit(Unit):
         pass
 
     def change_mana(self):
-        self.mana += self.mana_delta
+        self.current_mana += self.mana_delta
