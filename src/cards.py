@@ -9,6 +9,14 @@ class Card:
         self.fract = fract
         self.mn = mn
 
+    def __eq__(self, other):
+        if self.id == other.id and
+           self.name == other.name and
+           self.fract == other.fract and
+           self.mn == other.mn:
+           return True
+        return False
+
     @classmethod
     def load(cls, file):
         return cls(id=file["id"], name=file["name"], fract=file["fract"], mn=file["mn"])
@@ -56,6 +64,14 @@ class Unit(Card):
             items=file["items"],
         )
 
+    def __eq__(self, other):
+        if Card.__eq__(self, other) and
+           self.dmg == other.dmg and
+           self.hp == other.hp and
+           self.items == other.items: #todo: fix (lists compair)
+           return True
+        return False
+
     def recieve_item(self, item):
         if item.fract != self.fract:
             return False
@@ -84,6 +100,13 @@ class Item(Card):
         self.dmg_boost = dmg_boost
         self.hp_boost = hp_boost
 
+    def __eq__(self, other):
+        if Card.__eq__(self, other) and
+           self.dmg_boost == other.dmg_boost and
+           self.hp_boost == other.hp_boost:
+           return True
+        return False
+
     @classmethod
     def load(cls, file):
         return cls(
@@ -96,11 +119,20 @@ class Item(Card):
         )
 
 
+
+
 class Location(Card):
     def __init__(self, id, name, fract, mn, dmg_boost, hp_boost):
         Card.__init__(self, id=id, name=name, fract=fract, mn=mn)
         self.dmg_boost = dmg_boost
         self.hp_boost = hp_boost
+
+    def __eq__(self, other):
+        if Card.__eq__(self, other) and
+           self.dmg_boost == other.dmg_boost and
+           self.hp_boost == other.hp_boost:
+           return True
+        return False
 
     @classmethod
     def load(cls, file):
@@ -118,6 +150,9 @@ class Event(Card):
     def __init__(self, id, name, fract, mn):
         Card.__init__(self, id=id, name=name, fract=fract, mn=mn)
 
+    def __eq__(self, other):
+        return True
+
     @classmethod
     def load(cls, file):
         return cls(id=file["id"], name=file["name"], fract=file["fract"], mn=file["mn"])
@@ -130,10 +165,17 @@ class PlayerUnit(Unit):
         self.mana = mp
         self.mana_delta = mana_delta
 
+    def __eq__(self, other):
+        if self.hp == other.hp and
+           self.mana == other.mana and
+           self.mana_delta = other.mana_delta:
+           return True
+        return False
+
     @classmethod
     def load(cls, file):
         # return cls() !? чё с init-ом тут творится
         pass
 
-    def change_mana(self, dm=self.mana_delta):
-        self.mana += dm
+    def change_mana(self):
+        self.mana += self.mana_delta

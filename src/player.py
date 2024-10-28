@@ -1,6 +1,11 @@
 from cards import *
 from enum import Enum
 
+from field import Field
+from hand import Hand
+from stack import Stack
+
+
 
 class Player:
 
@@ -57,53 +62,3 @@ class Player:
             self.field.cards_list[i_to].recieve_item(card_from)
 
         self.field.cards_list[PLAYER].change_mana(-card_from.mn)
-
-
-class Field:
-
-    class FieldNames(Enum):
-        UNIT1 = 0
-        UNIT2 = 1
-        UNIT3 = 2
-        UNIT4 = 3
-        PLAYER = 4
-        LOCATION = 5
-
-    def __init__(self, cards_list=None):
-        if cards_list == None:
-            cards_list = [None] * len(FieldNames)
-
-    def get_card(self, index):
-        return self.cards_list[index]
-
-    def place_card(self, card, index):
-        self.cards_list[index] = card
-
-    def remove_card(self, index):
-        old_card = self.cards_list[index]
-        self.cards_list[index] = None
-        new_card = DECK[old_card.id].copy()
-        return new_card
-
-
-class Hand(Field):
-
-    def __init__(self, cards_list=None):
-        if cards_list == None:
-            cards_list = [None] * 4
-
-
-class Stack:
-
-    def __init__(self, cards_list=None):
-        if cards_list == None:
-            cards_list = []
-
-    def get_top_card(self):
-        return self.cards_list[-1]
-
-    def push(self, card):
-        self.cards_list.insert(0, card)
-
-    def pop(self):
-        return self.cards_list.pop()  # todo: pop from empty stack!!!
