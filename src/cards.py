@@ -160,7 +160,6 @@ class Event(Card):
 
 class PlayerUnit(Unit):
     def __init__(self, hp, mp, mana_delta):
-        Unit.__init__(self)
         self.hp = hp
         self.mana = mp
         self.mana_delta = mana_delta

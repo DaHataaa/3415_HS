@@ -6,7 +6,9 @@ class Stack:
 
     def __init__(self, cards_list=None):
         if cards_list == None:
-            cards_list = []
+            self.cards_list = []
+        else:
+        	self.cards_list = cards_list
 
     def get_top_card(self):
         return self.cards_list[-1]
