@@ -18,7 +18,7 @@ class Field:
             self.cards_list = cards_list
 
     def __eq__(self, other):
-        for i in range(len(FieldNames)):
+        for i in range(len(self.cards_list)):
 
 
             if self.cards_list[i] != other.cards_list[i]:

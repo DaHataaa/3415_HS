@@ -1,7 +1,3 @@
-from enum import Enum
-
-
-
 class Stack:
 
     def __init__(self, cards_list=None):
