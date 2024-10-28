@@ -6,6 +6,14 @@ class Stack:
         else:
         	self.cards_list = cards_list
 
+    def __eq__(self, other):
+        for i in range(len(self.cards_list)):
+
+
+            if self.cards_list[i] != other.cards_list[i]:
+                return False
+        return True
+
     def get_top_card(self):
         return self.cards_list[-1]
 
