@@ -1,6 +1,7 @@
-import json
+from error_exceptions import *
 from cards import *
 import gameserver
 
-print(cards_list)
-print(type(cards_e["ram"]) == Item)
+imports()
+
+print('Skibidi dop dop yes yes')
