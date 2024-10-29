@@ -1,9 +1,9 @@
-from cards import *
+from src.cards import *
 from enum import Enum
 
-from field import Field
-from hand import Hand
-from stack import Stack
+from src.field import Field
+from src.hand import Hand
+from src.stack import Stack
 
 
 
@@ -17,17 +17,20 @@ class Player:
     def get_card_dmg(self, index):
         return self.field.get_card(index).get_dmg()
 
+    def get_card_hp(self, index):
+        return self.field.get_card(index).get_hp()
+
     def change_card_hp(self, index, d_hp):
-        self.field[index].change_card_hp(d_hp)
+        self.field.cards_list[index].change_hp(d_hp)
 
     def change_card_dmg(self, index, d_dmg):
-        self.field[index].change_card_dmg(d_dmg)
+        self.field.cards_list[index].change_dmg(d_dmg)
 
     def can_play_card(self, i_from, i_to):
         card_from = self.hand.get_card(i_from)
-        card_to = self.hand.get_card(i_to)
-        if card_from == None:
-            return 1
+        card_to = self.field.get_card(i_to)
+        if None == card_from:
+            return False
 
         mana_need = card_from.mn
 
@@ -53,11 +56,11 @@ class Player:
         card_from = self.hand.get_card(i_from)
 
         self.hand.remove_card(i_from)
-        self.hand.place_card(self.stack.pop())
+        self.hand.place_card(self.stack.pop(),i_from)
 
         if self.field.get_card(i_to) == None:
             self.field.place_card(card_from, i_to)
         else:
             self.field.cards_list[i_to].recieve_item(card_from)
 
-        self.field.cards_list[PLAYER].change_mana(-card_from.mn)
+        self.field.cards_list[Field.FieldNames.PLAYER].change_mana(-card_from.mn)

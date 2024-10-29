@@ -30,4 +30,5 @@ def test_pop():
 
 	popped_element = s.pop()
 	
-	assert popped_element == s2.get_top_card() and popped_element != s.get_top_card()
+	assert popped_element == s2.get_top_card()
+	assert popped_element != s.get_top_card()

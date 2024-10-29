@@ -10,7 +10,8 @@ class Card:
         self.mn = mn
 
     def __eq__(self, other):
-        if (self.id == other.id and 
+        if (isinstance(self, Card) and isinstance(other, Card) and
+           self.id == other.id and 
            self.name == other.name and
            self.fract == other.fract and
            self.mn == other.mn):
@@ -177,5 +178,7 @@ class PlayerUnit(Unit):
         # return cls() !? чё с init-ом тут творится
         pass
 
-    def change_mana(self):
-        self.current_mana += self.mana_delta
+    def change_mana(self, md='def'):
+        if md == 'def':
+            md = self.mana_delta
+        self.current_mana += md

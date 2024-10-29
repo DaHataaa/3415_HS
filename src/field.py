@@ -1,9 +1,9 @@
-from enum import Enum
+from enum import IntEnum
 
 
 class Field:
 
-    class FieldNames(Enum):
+    class FieldNames(IntEnum):
         UNIT1 = 0
         UNIT2 = 1
         UNIT3 = 2
