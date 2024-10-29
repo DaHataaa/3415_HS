@@ -1,9 +1,11 @@
-from player import *
-from cards import *
-
+from src.gamestate import *
 
 class GameServer:
-    def __init__(self, p1, p2):
-        self.atacker = p1
-        self.defender = p2
+    def __init__(self, state: GameState):
+        if isinstance(state, GameState):
+            self.state = state
+        else:
+            p1 = Player(Field(), Hand(), Stack())
+            p2 = Player(Field(), Hand(), Stack())
+            state = GameState(p1, p2)
 

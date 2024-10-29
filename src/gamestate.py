@@ -1,10 +1,12 @@
+from src.player import *
+
 class GameState:
     def __init__(self, p1, p2):
         self.attacker = p1
         self.defender = p2
 
     def attack(self, i_from, i_to):
-        self.defender.change_card_hp(self.attacker.get_card_dmg(i_from))
+        self.defender.change_card_hp(-self.attacker.get_card_dmg(i_from))
 
     def play_card(self, i_from, i_to):
         if self.attacker.can_play_card(i_from, i_to):
