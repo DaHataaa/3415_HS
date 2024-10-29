@@ -1,11 +1,7 @@
 class GameState:
-    def __init__(self, p1 = None, p2 = None):
-        if p1 == None | p2 == None:
-            raise Exception("GameState", "None-Player")
-
+    def __init__(self, p1, p2):
         self.attacker = p1
         self.defender = p2
-        return
 
     def attack(self, i_from, i_to):
         self.defender.change_card_hp(self.attacker.get_card_dmg(i_from))
