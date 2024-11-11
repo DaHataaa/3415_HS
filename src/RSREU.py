@@ -4,4 +4,4 @@ import gameserver
 
 imports()
 
-print('Skibidi dop dop yes yes')
+print("Skibidi dop dop yes yes")

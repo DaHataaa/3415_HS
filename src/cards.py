@@ -10,11 +10,13 @@ class Card:
         self.mn = mn
 
     def __eq__(self, other):
-        if (self.id == other.id and 
-           self.name == other.name and
-           self.fract == other.fract and
-           self.mn == other.mn):
-           return True
+        if (
+            self.id == other.id
+            and self.name == other.name
+            and self.fract == other.fract
+            and self.mn == other.mn
+        ):
+            return True
         return False
 
     @classmethod
@@ -65,11 +67,13 @@ class Unit(Card):
         )
 
     def __eq__(self, other):
-        if (Card.__eq__(self, other) and
-           self.dmg == other.dmg and
-           self.hp == other.hp and
-           self.items == other.items): #todo: fix (lists compair)
-           return True
+        if (
+            Card.__eq__(self, other)
+            and self.dmg == other.dmg
+            and self.hp == other.hp
+            and self.items == other.items
+        ):  # todo: fix (lists compair)
+            return True
         return False
 
     def recieve_item(self, item):
@@ -101,10 +105,12 @@ class Item(Card):
         self.hp_boost = hp_boost
 
     def __eq__(self, other):
-        if (Card.__eq__(self, other) and
-           self.dmg_boost == other.dmg_boost and
-           self.hp_boost == other.hp_boost):
-           return True
+        if (
+            Card.__eq__(self, other)
+            and self.dmg_boost == other.dmg_boost
+            and self.hp_boost == other.hp_boost
+        ):
+            return True
         return False
 
     @classmethod
@@ -119,8 +125,6 @@ class Item(Card):
         )
 
 
-
-
 class Location(Card):
     def __init__(self, id, name, fract, mn, dmg_boost, hp_boost):
         Card.__init__(self, id=id, name=name, fract=fract, mn=mn)
@@ -128,10 +132,12 @@ class Location(Card):
         self.hp_boost = hp_boost
 
     def __eq__(self, other):
-        if (Card.__eq__(self, other) and
-           self.dmg_boost == other.dmg_boost and
-           self.hp_boost == other.hp_boost):
-           return True
+        if (
+            Card.__eq__(self, other)
+            and self.dmg_boost == other.dmg_boost
+            and self.hp_boost == other.hp_boost
+        ):
+            return True
         return False
 
     @classmethod
@@ -165,11 +171,13 @@ class PlayerUnit(Unit):
         self.mana_delta = mana_delta
 
     def __eq__(self, other):
-        if (self.hp == other.hp and
-           self.max_mana == other.max_mana and
-           self.current_mana == other.current_mana and
-           self.mana_delta == other.mana_delta):
-           return True
+        if (
+            self.hp == other.hp
+            and self.max_mana == other.max_mana
+            and self.current_mana == other.current_mana
+            and self.mana_delta == other.mana_delta
+        ):
+            return True
         return False
 
     @classmethod

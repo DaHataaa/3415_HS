@@ -6,7 +6,6 @@ from src.hand import Hand
 from src.stack import Stack
 
 
-
 class Player:
 
     def __init__(self, field, hand, stack):
@@ -43,7 +42,7 @@ class Player:
         elif isinstance(card_from, Item):
             if (
                 i_to < Field.FieldNames.PLAYER
-                and not(card_to is None)
+                and not (card_to is None)
                 and card_to.fract == card_from.fract
             ):
                 return True
@@ -56,7 +55,7 @@ class Player:
         card_from = self.hand.get_card(i_from)
 
         self.hand.remove_card(i_from)
-        self.hand.place_card(self.stack.pop(),i_from)
+        self.hand.place_card(self.stack.pop(), i_from)
 
         if self.field.get_card(i_to) == None:
             self.field.place_card(card_from, i_to)
