@@ -1,7 +1,7 @@
 from src.cards import *
 from enum import Enum
 
-from src.field import Field
+from src.field import Field, FieldNames
 from src.hand import Hand
 from src.stack import Stack
 
@@ -34,14 +34,14 @@ class Player:
         mana_need = card_from.mn
 
         if isinstance(card_from, Location):
-            if i_to == Field.FieldNames.LOCATION and card_to is None:
+            if i_to == FieldNames.LOCATION and card_to is None:
                 return True
         elif isinstance(card_from, Unit):
-            if i_to < Field.FieldNames.PLAYER and card_to is None:
+            if i_to < FieldNames.PLAYER and card_to is None:
                 return True
         elif isinstance(card_from, Item):
             if (
-                i_to < Field.FieldNames.PLAYER
+                i_to < FieldNames.PLAYER
                 and not (card_to is None)
                 and card_to.fract == card_from.fract
             ):
@@ -62,4 +62,4 @@ class Player:
         else:
             self.field.cards_list[i_to].recieve_item(card_from)
 
-        self.field.cards_list[Field.FieldNames.PLAYER].change_mana(-card_from.mn)
+        self.field.cards_list.FieldNames.PLAYER].change_mana(-card_from.mn)

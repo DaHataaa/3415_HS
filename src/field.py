@@ -1,16 +1,16 @@
 from enum import IntEnum
 
 
+class FieldNames(IntEnum):
+    UNIT1 = 0
+    UNIT2 = 1
+    UNIT3 = 2
+    UNIT4 = 3
+    PLAYER = 4
+    LOCATION = 5
+
+
 class Field:
-
-    class FieldNames(IntEnum):
-        UNIT1 = 0
-        UNIT2 = 1
-        UNIT3 = 2
-        UNIT4 = 3
-        PLAYER = 4
-        LOCATION = 5
-
     def __init__(self, cards_list=None):
         if cards_list == None:
             self.cards_list = [None] * len(FieldNames)
