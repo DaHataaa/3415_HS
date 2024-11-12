@@ -7,6 +7,7 @@ from src.resource import RESOURCE as res
 class ViewCard:
     WIDTH = res["card_width"]
     HEIGHT = res["card_height"]
+    SELECT_ADD_SIZE = res["select_add_size"]
     SELECTED_COLOR = res["selected_color"]
 
     def __init__(self, card, x, y):
@@ -35,7 +36,17 @@ class ViewCard:
 		self.selected = not self.selected
 
     def redraw(self, display):
-        1
+        if self.selected:
+        	w = ViewCard.WIDTH + ViewCard.SELECT_ADD_SIZE
+        	h = ViewCard.HEIGHT + ViewCard.SELECT_ADD_SIZE
+
+        	add = ViewCard.SELECT_ADD_SIZE // 2
+        	img_to_draw = pygame.transform.scale(img, (w,h))
+        else:
+        	img_to_draw = img
+        	add = 0
+
+        display.blit(img_to_draw, (self.x - add, self.y - add))
 
     def event_processing(self, event):
         1
