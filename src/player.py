@@ -62,4 +62,4 @@ class Player:
         else:
             self.field.cards_list[i_to].recieve_item(card_from)
 
-        self.field.cards_list.FieldNames.PLAYER].change_mana(-card_from.mn)
+        self.field.cards_list[FieldNames.PLAYER].change_mana(-card_from.mn)

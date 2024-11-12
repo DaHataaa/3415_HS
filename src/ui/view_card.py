@@ -40,9 +40,6 @@ class ViewCard:
     def event_processing(self, event):
         1
 
-    def select(self):
-        self.selected = not self.selected
-
 
 class move:
     def __init__(self, vcard):
