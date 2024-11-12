@@ -1,5 +1,6 @@
 from src.player import *
 
+
 class GameState:
     def __init__(self, p1, p2):
         self.attacker = p1
@@ -18,5 +19,3 @@ class GameState:
     def next_turn(self):
         self.defender.change_mana()
         self.swap_players()
-        
-        
