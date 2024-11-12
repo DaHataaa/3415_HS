@@ -15,14 +15,6 @@ class ViewCard:
         self.y = y
         self.selected = False
 
-<<<<<<< HEAD
-	def __init__(self, card, x, y):
-		self.card = card
-		self.x = x
-		self.y = y
-		self.selected = False
-
-
 
 	@property
 	def card(self):
@@ -50,10 +42,9 @@ class ViewCard:
 
 	def select(self):
 		self.selected = not self.selected
-=======
+
     def redraw(self, display):
         1
->>>>>>> origin/main
 
     def event_processing(self, event):
         1
