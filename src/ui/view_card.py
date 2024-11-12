@@ -17,6 +17,23 @@ class ViewCard:
 		self.selected = False
 
 
+
+	@property
+	def card(self):
+		return self.__card
+
+
+	@card.setter
+	def card(self, value):
+		if not isinstance(value, Card):
+			raise TypeError(f'NOT A CARD! {type(value)} GIVEN!')
+		self.__card = value
+		img = pygame.image.load(f'img/{self.card.id}.png')
+
+		self.img_front = pygame.transform.scale(img, (ViewCard.WIDTH, ViewCard.HEIGHT))
+
+
+
 	def redraw(self, display):
 		1
 
