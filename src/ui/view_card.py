@@ -31,15 +31,6 @@ class ViewCard:
 		self.img_front = pygame.transform.scale(img, (ViewCard.WIDTH, ViewCard.HEIGHT))
 
 
-
-	def redraw(self, display):
-		1
-
-
-	def event_processing(self, event):
-		1
-
-
 	def select(self):
 		self.selected = not self.selected
 
