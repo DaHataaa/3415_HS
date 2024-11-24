@@ -47,7 +47,7 @@ class Player:
             ):
                 return True
         elif isinstance(card_from, Event):
-            1
+            pass
 
         return False
 

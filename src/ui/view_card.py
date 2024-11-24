@@ -49,7 +49,7 @@ class ViewCard:
         display.blit(img_to_draw, (self.x - add, self.y - add))
 
     def event_processing(self, event):
-        1
+        pass
 
 
 class move:
