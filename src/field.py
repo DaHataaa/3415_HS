@@ -11,7 +11,7 @@ class FieldNames(IntEnum):
 
 
 class Field:
-    def __init__(self, cards_list=None):
+    def __init__(self, cards_list: list | None = None):
         if cards_list == None:
             self.cards_list = [None] * len(FieldNames)
         else:

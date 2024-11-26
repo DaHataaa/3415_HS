@@ -8,18 +8,29 @@ from src.stack import Stack
 
 class Player:
 
-    def __init__(self, field, hand, stack):
+    def __init__(
+        self,
+        field: Field | None = None,
+        hand: Hand | None = None,
+        stack: Stack | None = None,
+    ):
         self.field = field
-        self.hand = hand
-        self.stack = stack
+        if self.field == None:
+            self.field = Field()
 
+        self.hand = hand
+        if self.hand == None:
+            self.hand = Hand()
+
+        self.stack = stack
+        if self.stack == None:
+            self.stack = Stack()
 
     def push_to_stack(self, card):
         self.stack.push(card)
 
     def remove_from_field(self, index):
         self.field.remove_card(index)
-
 
     def get_card_dmg(self, index):
         return self.field.get_card(index).get_dmg()
@@ -38,8 +49,6 @@ class Player:
 
             self.push_to_stack(self.field.cards_list[index])
             self.remove_from_field(index)
-
-
 
     def can_play_card(self, i_from, i_to):
         card_from = self.hand.get_card(i_from)
