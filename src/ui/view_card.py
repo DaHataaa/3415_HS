@@ -16,35 +16,32 @@ class ViewCard:
         self.y = y
         self.selected = False
 
+    @property
+    def card(self):
+        return self.__card
 
-	@property
-	def card(self):
-		return self.__card
+    @card.setter
+    def card(self, value):
+        if not isinstance(value, Card):
+            raise TypeError(f"NOT A CARD! {type(value)} GIVEN!")
+        self.__card = value
+        img = pygame.image.load(f"img/{self.card.id}.png")
 
+        self.img_front = pygame.transform.scale(img, (ViewCard.WIDTH, ViewCard.HEIGHT))
 
-	@card.setter
-	def card(self, value):
-		if not isinstance(value, Card):
-			raise TypeError(f'NOT A CARD! {type(value)} GIVEN!')
-		self.__card = value
-		img = pygame.image.load(f'img/{self.card.id}.png')
-
-		self.img_front = pygame.transform.scale(img, (ViewCard.WIDTH, ViewCard.HEIGHT))
-
-
-	def select(self):
-		self.selected = not self.selected
+    def select(self):
+        self.selected = not self.selected
 
     def redraw(self, display):
         if self.selected:
-        	w = ViewCard.WIDTH + ViewCard.SELECT_ADD_SIZE
-        	h = ViewCard.HEIGHT + ViewCard.SELECT_ADD_SIZE
+            w = ViewCard.WIDTH + ViewCard.SELECT_ADD_SIZE
+            h = ViewCard.HEIGHT + ViewCard.SELECT_ADD_SIZE
 
-        	add = ViewCard.SELECT_ADD_SIZE // 2
-        	img_to_draw = pygame.transform.scale(img, (w,h))
+            add = ViewCard.SELECT_ADD_SIZE // 2
+            img_to_draw = pygame.transform.scale(img, (w, h))
         else:
-        	img_to_draw = img
-        	add = 0
+            img_to_draw = img
+            add = 0
 
         display.blit(img_to_draw, (self.x - add, self.y - add))
 

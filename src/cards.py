@@ -10,10 +10,12 @@ class Card:
         self.mn = mn
 
     def __eq__(self, other):
-            return (self.id == other.id
+        return (
+            self.id == other.id
             and self.name == other.name
             and self.fract == other.fract
-            and self.mn == other.mn)
+            and self.mn == other.mn
+        )
 
     @classmethod
     def load(cls, file):
@@ -28,9 +30,11 @@ class Item(Card):
         self.hp_boost = hp_boost
 
     def __eq__(self, other):
-        return (Card.__eq__(self, other)
-        and self.dmg_boost == other.dmg_boost
-        and self.hp_boost == other.hp_boost)
+        return (
+            Card.__eq__(self, other)
+            and self.dmg_boost == other.dmg_boost
+            and self.hp_boost == other.hp_boost
+        )
 
     @classmethod
     def load(cls, file):
@@ -79,8 +83,6 @@ class Unit(Card):
         self.hp += d_hp
 
 
-
-
 class Location(Card):
     def __init__(self, id, name, fract, mn, dmg_boost, hp_boost):
         Card.__init__(self, id=id, name=name, fract=fract, mn=mn)
@@ -88,9 +90,11 @@ class Location(Card):
         self.hp_boost = hp_boost
 
     def __eq__(self, other):
-        return (Card.__eq__(self, other)
-        and self.dmg_boost == other.dmg_boost
-        and self.hp_boost == other.hp_boost)
+        return (
+            Card.__eq__(self, other)
+            and self.dmg_boost == other.dmg_boost
+            and self.hp_boost == other.hp_boost
+        )
 
     @classmethod
     def load(cls, file):
@@ -115,14 +119,10 @@ class Event(Card):
 
 class PlayerUnit(Unit):
     def __init__(self, id, name, fract, mn, dmg, hp, items):
-        super().__init__(self,
-                         id=id,
-                         name=name,
-                         fract=fract,
-                         mn=mn,
-                         dmg=dmg,
-                         hp=hp,
-                         items=items)
+        super().__init__(
+            self, id=id, name=name, fract=fract, mn=mn, dmg=dmg, hp=hp, items=items
+        )
+
     @classmethod
     def load(cls, file):
         return cls(
@@ -137,6 +137,7 @@ class PlayerUnit(Unit):
 
     def change_mana(self, md):
         self.current_mana += md
+
 
 @staticmethod
 def load_cards(cards_repo):
@@ -159,4 +160,3 @@ def load_cards(cards_repo):
         cards[cards_list[i]] = card
 
     return cards, cards_list
-

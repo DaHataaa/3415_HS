@@ -7,5 +7,5 @@ RESOURCE = {
     "height": 450,
     "card_width": 150,
     "card_height": 200,
-    "select_add_size": 30
+    "select_add_size": 30,
 }
