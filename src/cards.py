@@ -10,10 +10,10 @@ class Card:
         self.mn = mn
 
     def __eq__(self, other):
-            return self.id == other.id and\
-            self.name == other.name and\
-            self.fract == other.fract and\
-            self.mn == other.mn
+            return (self.id == other.id
+            and self.name == other.name
+            and self.fract == other.fract
+            and self.mn == other.mn)
 
     @classmethod
     def load(cls, file):
@@ -63,9 +63,9 @@ class Item(Card):
         self.hp_boost = hp_boost
 
     def __eq__(self, other):
-        return Card.__eq__(self, other) and\
-        self.dmg_boost == other.dmg_boost and\
-        self.hp_boost == other.hp_boost
+        return (Card.__eq__(self, other)
+        and self.dmg_boost == other.dmg_boost
+        and self.hp_boost == other.hp_boost)
 
     @classmethod
     def load(cls, file):
@@ -86,10 +86,9 @@ class Location(Card):
         self.hp_boost = hp_boost
 
     def __eq__(self, other):
-        return Card.__eq__(self, other) and\
-        self.dmg_boost == other.dmg_boost and\
-        self.hp_boost == other.hp_boost
-            
+        return (Card.__eq__(self, other)
+        and self.dmg_boost == other.dmg_boost
+        and self.hp_boost == other.hp_boost)
 
     @classmethod
     def load(cls, file):
