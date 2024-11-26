@@ -9,5 +9,10 @@ class GameServer:
 		self.game_state = state
 
 	@classmethod
-	def new_game(self):
-		p1 = 
+	def new_game(cls):
+		p1 = Player(Field(), Hand(), Stack())
+		p2 = Player(Field(), Hand(), Stack())
+		state = GameState(p1, p2)
+		return cls(state)
+
+
