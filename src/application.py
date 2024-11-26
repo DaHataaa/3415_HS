@@ -1,6 +1,6 @@
 import pygame
 
-from src.game_server import GameServer
+from src.gameserver import GameServer
 from src.resource import RESOURCE as res
 
 

@@ -20,6 +20,30 @@ class Card:
         return cls(id=file["id"], name=file["name"], fract=file["fract"], mn=file["mn"])
 
 
+class Item(Card):
+
+    def __init__(self, id, name, fract, mn, dmg_boost, hp_boost):
+        Card.__init__(self, id=id, name=name, fract=fract, mn=mn)
+        self.dmg_boost = dmg_boost
+        self.hp_boost = hp_boost
+
+    def __eq__(self, other):
+        return (Card.__eq__(self, other)
+        and self.dmg_boost == other.dmg_boost
+        and self.hp_boost == other.hp_boost)
+
+    @classmethod
+    def load(cls, file):
+        return cls(
+            id=file["id"],
+            name=file["name"],
+            fract=file["fract"],
+            mn=file["mn"],
+            dmg_boost=file["dmg_boost"],
+            hp_boost=file["hp_boost"],
+        )
+
+
 class Unit(Card):
 
     def __init__(self, id, name, fract, mn, dmg, hp, items):
@@ -55,28 +79,6 @@ class Unit(Card):
         self.hp += d_hp
 
 
-class Item(Card):
-
-    def __init__(self, id, name, fract, mn, dmg_boost, hp_boost):
-        Card.__init__(self, id=id, name=name, fract=fract, mn=mn)
-        self.dmg_boost = dmg_boost
-        self.hp_boost = hp_boost
-
-    def __eq__(self, other):
-        return (Card.__eq__(self, other)
-        and self.dmg_boost == other.dmg_boost
-        and self.hp_boost == other.hp_boost)
-
-    @classmethod
-    def load(cls, file):
-        return cls(
-            id=file["id"],
-            name=file["name"],
-            fract=file["fract"],
-            mn=file["mn"],
-            dmg_boost=file["dmg_boost"],
-            hp_boost=file["hp_boost"],
-        )
 
 
 class Location(Card):

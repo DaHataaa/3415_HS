@@ -17,5 +17,5 @@ class GameState:
         self.attacker, self.defender = self.defender, self.attacker
 
     def next_turn(self):
-        self.defender.change_mana()
+        self.defender.change_mana(defender.mana)
         self.swap_players()
