@@ -13,6 +13,14 @@ class Player:
         self.hand = hand
         self.stack = stack
 
+
+    def push_to_stack(self, card):
+        self.stack.push(card)
+
+    def remove_from_field(self, index):
+        self.field.remove_card(index)
+
+
     def get_card_dmg(self, index):
         return self.field.get_card(index).get_dmg()
 
@@ -24,6 +32,14 @@ class Player:
 
     def change_card_dmg(self, index, d_dmg):
         self.field.cards_list[index].change_dmg(d_dmg)
+        if self.get_card_hp(index) <= 0:
+            for item in self.field.cards_list[index].items:
+                self.push_to_stack(item)
+
+            self.push_to_stack(self.field.cards_list[index])
+            self.remove_from_field(index)
+
+
 
     def can_play_card(self, i_from, i_to):
         card_from = self.hand.get_card(i_from)
@@ -43,7 +59,7 @@ class Player:
             if (
                 i_to < FieldNames.PLAYER
                 and not (card_to is None)
-                and card_to.fract == card_from.fract
+                and can_recieve_item(card_from)
             ):
                 return True
         elif isinstance(card_from, Event):
