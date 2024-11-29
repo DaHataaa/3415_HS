@@ -120,8 +120,8 @@ class Event(Card):
 class PlayerUnit(Unit):
     def __init__(self, id, name, fract, mn, dmg, hp, items):
         super().__init__(
-            self, id=id, name=name, fract=fract, mn=mn, dmg=dmg, hp=hp, items=items
-        )
+            id=id, name=name, fract=fract, mn=mn, dmg=dmg, hp=hp, items=items
+            )
 
     @classmethod
     def load(cls, file):

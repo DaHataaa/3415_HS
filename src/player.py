@@ -8,23 +8,10 @@ from src.stack import Stack
 
 class Player:
 
-    def __init__(
-        self,
-        field: Field | None = None,
-        hand: Hand | None = None,
-        stack: Stack | None = None,
-    ):
-        self.field = field
-        if self.field == None:
-            self.field = Field()
-
-        self.hand = hand
-        if self.hand == None:
-            self.hand = Hand()
-
-        self.stack = stack
-        if self.stack == None:
-            self.stack = Stack()
+    def __init__(self, field: Field | None = None, hand: Hand | None = None, stack: Stack | None = None,):
+        self.field = field if field != None else Field()
+        self.hand = hand if hand != None else Hand()
+        self.stack = stack if stack != None else Stack()
 
     def push_to_stack(self, card):
         self.stack.push(card)

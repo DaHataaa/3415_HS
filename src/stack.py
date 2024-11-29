@@ -1,9 +1,7 @@
 class Stack:
 
     def __init__(self, cards_list=None):
-        self.cards_list = cards_list
-        if self.cards_list == None:
-            self.cards_list = []
+        self.cards_list = cards_list if cards_list != None else []
 
     def __eq__(self, other):
         for i in range(len(self.cards_list)):

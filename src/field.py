@@ -12,14 +12,11 @@ class FieldNames(IntEnum):
 
 class Field:
     def __init__(self, cards_list: list | None = None):
-        if cards_list == None:
-            self.cards_list = [None] * len(FieldNames)
-        else:
-            self.cards_list = cards_list
+        cards_list = cards_list if cards_list  != None else [None] * len(FieldNames)
 
     def __eq__(self, other):
-        for i in range(len(self.cards_list)):
 
+        for i in range(len(self.cards_list)):
             if self.cards_list[i] != other.cards_list[i]:
                 return False
         return True

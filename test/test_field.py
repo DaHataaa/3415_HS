@@ -2,16 +2,14 @@ import pytest
 from src.field import Field
 from src.cards import *
 
-
 cards = [
     Unit("nikolaev", "Николаев", "PHYS", 11, 1, 14, []),
     None,
     Unit("nikolaev", "Николаев", "PHYS", 11, 2, 14, []),
     Unit("nikolaev", "Николаев", "PHYS", 11, 3, 14, []),
-    PlayerUnit(99, 99, 1),
+    PlayerUnit("Default_Player", "Player", "Student", 99, 99, 1, None),
     Location("toilet", "Центральный толкан", "MATH", 20, 5, 13),
 ]
-
 
 def test_init():
     f = Field(cards)

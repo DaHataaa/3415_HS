@@ -2,14 +2,9 @@ from src.player import *
 
 
 class GameState:
-    def __init__(self, p1, p2):
-        self.attacker = p1
-        if self.attacher == None:
-            self.attacker = Player()
-
-        self.defender = p2
-        if self.defender == None:
-            self.defender = Player
+    def __init__(self, p1 = None, p2 = None):
+        self.attacker = p1 if p1 != None else Player()
+        self.defender = p2 if p2 != None else Player()
 
     def attack(self, i_from, i_to):
         self.defender.change_card_hp(-self.attacker.get_card_dmg(i_from))
@@ -22,5 +17,5 @@ class GameState:
         self.attacker, self.defender = self.defender, self.attacker
 
     def next_turn(self):
-        self.defender.change_mana(defender.mana)
+        self.defender.change_mana(self.defender.mana)
         self.swap_players()
