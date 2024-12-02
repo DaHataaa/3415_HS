@@ -5,7 +5,7 @@ RESOURCE = {
     "FPS": 30,
     "width": 800,
     "height": 450,
-    "card_width": 150,
-    "card_height": 200,
+    "card_width": 75,
+    "card_height": 100,
     "select_add_size": 30,
 }

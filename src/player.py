@@ -13,6 +13,10 @@ class Player:
         self.hand = hand if hand != None else Hand()
         self.stack = stack if stack != None else Stack()
 
+
+    def get_hand(self, index):
+        return self.hand
+
     def push_to_stack(self, card):
         self.stack.push(card)
 
