@@ -11,6 +11,10 @@ class ViewHand:
 
 
 	def redraw(self, side, display):
+		if side == 'defender':
+			y = 100
+		elif side == 'attacker':
+			y = res["height"]-100
 		for i in range(4):
-			card = vcard(self.hand.get_card(i),i*80,res["height"]-100)
+			card = vcard(self.hand.get_card(i),i*80,y)
 			card.redraw(display)
