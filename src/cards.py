@@ -82,6 +82,9 @@ class Unit(Card):
     def change_hp(self, d_hp):
         self.hp += d_hp
 
+    def change_mp(self, d_mn):
+        self.mn += d_mn
+
 
 class Location(Card):
     def __init__(self, id, name, fract, mn, dmg_boost, hp_boost):
@@ -135,8 +138,6 @@ class PlayerUnit(Unit):
             items=file["items"],
         )
 
-    def change_mana(self, md):
-        self.current_mana += md
 
 
 @staticmethod

@@ -8,7 +8,7 @@ from src.stack import Stack
 
 class Player:
 
-    def __init__(self, field: Field | None = None, hand: Hand | None = None, stack: Stack | None = None,):
+    def __init__(self, field: Field | None = None, hand: Hand | None = None, stack: Stack | None = None):
         self.field = field if field != None else Field()
         self.hand = hand if hand != None else Hand()
         self.stack = stack if stack != None else Stack()
@@ -32,6 +32,9 @@ class Player:
     def change_card_hp(self, index, d_hp):
         self.field.cards_list[index].change_hp(d_hp)
 
+    def change_mana(self, index, d_mhp):
+        self.field.cards_list[index].change_mp(d_mhp)
+
     def change_card_dmg(self, index, d_dmg):
         self.field.cards_list[index].change_dmg(d_dmg)
         if self.get_card_hp(index) <= 0:
@@ -44,24 +47,18 @@ class Player:
     def can_play_card(self, i_from, i_to):
         card_from = self.hand.get_card(i_from)
         card_to = self.field.get_card(i_to)
+        
         if card_from is None:
             return False
-
-        mana_need = card_from.mn
+        if self.men_hp < card_from.mn:
+            return False
 
         if isinstance(card_from, Location):
-            if i_to == FieldNames.LOCATION and card_to is None:
-                return True
+            return i_to == FieldNames.LOCATION and card_to is None
         elif isinstance(card_from, Unit):
-            if i_to < FieldNames.PLAYER and card_to is None:
-                return True
+            return i_to < FieldNames.PLAYER and card_to is None
         elif isinstance(card_from, Item):
-            if (
-                i_to < FieldNames.PLAYER
-                and not (card_to is None)
-                and can_recieve_item(card_from)
-            ):
-                return True
+            return i_to < FieldNames.PLAYER and not (card_to is None) and i_to.can_recieve_item(card_from)
         elif isinstance(card_from, Event):
             pass
 

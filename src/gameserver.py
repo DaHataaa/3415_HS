@@ -3,7 +3,7 @@ from src.hand import Hand
 from src.field import Field, FieldNames
 from src.stack import Stack
 import enum
-
+import random
 
 class GamePhase(enum.StrEnum):
     CREATE_DECK = "Create deck"
@@ -31,11 +31,31 @@ class GameServer:
         self.current_phase = phases[self.current_phase]()
 
     def create_deck_phase(self):
-        self.game_state = GameState() #Доделать
-        pass
+        self.game_state = GameState()
+        self.current_phase = GamePhase.CURRENT_TURN
 
-    def current_turn_phase(self):
-        pass
+    def current_turn_phase(self, TOG): #Временно переделана под асцу, не доделал
+        
+        match TOG:
+            case 0: #Ascii режим
+                match int(input('''
+                                Действие:
+                            1. Атаковать карту
+                            2. Посмотреть колоду
+                            3. 
+                            ''')):
+                    case 0:
+                        input('Введите индекс карты атаки и индекс карты врага ([0:3] - карты, 4 - игрок)')
+                    case 0:
+                        pass
+                    case 0:
+                        pass
+                    case 0:
+                        pass
+                    case 0:
+                        pass
+            case 1: #Режим с графикой
+                pass
 
     def switch_players_phase(self):
         GameState.swap_players()
