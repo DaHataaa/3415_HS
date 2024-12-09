@@ -1,17 +1,21 @@
-from src.cards import *
 from enum import Enum
+from typing import Type
 
+from src.cards import *
 from src.field import Field, FieldNames
 from src.hand import Hand
 from src.stack import Stack
 
+from src.player_interface import IPlayerInput
+from src.players import cli
 
 class Player:
 
-    def __init__(self, field: Field | None = None, hand: Hand | None = None, stack: Stack | None = None):
-        self.field = field if field != None else Field()
-        self.hand = hand if hand != None else Hand()
-        self.stack = stack if stack != None else Stack()
+    def __init__(self, field: Field | None = None, hand: Hand | None = None, stack: Stack | None = None, input_interface: Type[IPlayerInput] = cli.CLI):
+        self.field = field if field is not None else Field()
+        self.hand = hand if hand is not None else Hand()
+        self.stack = stack if stack is not None else Stack()
+        self.input_interface = input_interface
 
 
     def get_hand(self, index):
