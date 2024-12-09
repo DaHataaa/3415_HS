@@ -4,24 +4,38 @@ from src.field import FieldNames
 
 
 class IPlayerInput(ABC):
+    #CREATE_DECK
     @abstractmethod
-    def is_playable(self, player, index: int) -> bool:
+    def choose_cards(self, all_cards: dict):
         """
-        Выбираем карту (в руке), которую пользователь хочет сыграть, и проверяем, что её туда можно сыграть
+        Просит игрока выбрать 8 карт из всех доступных карт
+        """
+        pass
+
+    #CURRENT_TURN
+    @abstractmethod
+    def choose_current_turn(self):
+        """
+        Выбрать, какое действие вы хотите сделать за ход.
+        Можно:
+            попробовать сыграть карту,
+            атаковать юнитом,
+            закончить ход.
+        """
+        pass
+
+
+    @abstractmethod
+    def try_play_card(self, player, ifrom: int, ito: FieldNames):
+        """
+        Попытаться сыграть карту из слота ifrom руки в слоте ito поля
         """
         pass
 
     @abstractmethod
-    def play_card(self, player, index: FieldNames):
+    def unit_attack(self, server, ifrom: FieldNames, ito: FieldNames):
         """
-        Играет карту на выбранный индекс
-        """
-        pass
-
-    @abstractmethod
-    def unit_attack(self, player, index_from: FieldNames, index_to: FieldNames):
-        """
-        Заставляем юнита атаковать
+        Атакуем юнитом вражеского юнита
         """
         pass
 
