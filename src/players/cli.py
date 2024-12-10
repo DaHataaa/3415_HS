@@ -1,22 +1,34 @@
 from src.player_interface import IPlayerInput
 
 class CLI(IPlayerInput):
-    pass
+    def choose_cards(self, all_cards: dict):
+        pass
+
+    def choose_current_turn(self):
+        match int(input('''
+                        Действие:
+                    1. Посмотреть карты на руке
+                    2. Сыграть карту с руки
+                    3. Атаковать юнита
+                    4. Закончить ход
+                    ''')):
+            case 1:
+                pass
+            case 2: # try_play_card()
+                pass
+            case 3: # unit_attack()
+                pass
+            case 4: # turn_end()
+                pass
+        return
+
+    def try_play_card(self, player, ifrom: int, ito: FieldNames):
+        pass
+
+    def unit_attack(self, server, ifrom: FieldNames, ito: FieldNames):
+        pass
+
+    def turn_end(self):
+        pass
  
-# match int(input('''
-#                 Действие:
-#             1. Атаковать карту
-#             2. Посмотреть колоду
-#             3. 
-#             ''')):
-#     case 0:
-#         input('Введите индекс карты атаки и индекс карты врага ([0:3] - карты, 4 - игрок)')
-#     case 0:
-#         pass
-#     case 0:
-#         pass
-#     case 0:
-#         pass
-#     case 0:
-#         pass
 
