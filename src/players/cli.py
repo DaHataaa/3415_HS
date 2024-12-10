@@ -1,4 +1,4 @@
-from src.player_interface import IPlayerInput
+from src.player_interface import IPlayerInput, FieldNames
 
 class CLI(IPlayerInput):
     def choose_cards(self, all_cards: dict):

@@ -1,8 +1,8 @@
-from gameserver import GameServer
+from src import gameserver
 
 def __main__():
     # Можно добавить обработчик параметров коммандной строки, например --load <file>
-    server = GameServer()
+    server = gameserver.GameServer()
     server.run()
 
 if __name__ == "__main__":
