@@ -12,7 +12,7 @@ class FieldNames(IntEnum):
 
 class Field:
     def __init__(self, cards_list: list | None = None):
-        cards_list = cards_list if cards_list  != None else [None] * len(FieldNames)
+        cards_list = cards_list if cards_list != None else [None] * len(FieldNames)
 
     def __eq__(self, other):
 

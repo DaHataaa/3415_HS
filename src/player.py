@@ -9,14 +9,20 @@ from src.stack import Stack
 from src.player_interface import IPlayerInput
 from src.players import cli
 
+
 class Player:
 
-    def __init__(self, field: Field | None = None, hand: Hand | None = None, stack: Stack | None = None, input_interface: Type[IPlayerInput] = cli.CLI):
+    def __init__(
+        self,
+        field: Field | None = None,
+        hand: Hand | None = None,
+        stack: Stack | None = None,
+        input_interface: Type[IPlayerInput] = cli.CLI,
+    ):
         self.field = field if field is not None else Field()
         self.hand = hand if hand is not None else Hand()
         self.stack = stack if stack is not None else Stack()
         self.input_interface = input_interface
-
 
     def get_hand(self, index):
         return self.hand
@@ -51,7 +57,7 @@ class Player:
     def can_play_card(self, i_from, i_to):
         card_from = self.hand.get_card(i_from)
         card_to = self.field.get_card(i_to)
-        
+
         if card_from is None:
             return False
         if self.men_hp < card_from.mn:
@@ -62,7 +68,11 @@ class Player:
         elif isinstance(card_from, Unit):
             return i_to < FieldNames.PLAYER and card_to is None
         elif isinstance(card_from, Item):
-            return i_to < FieldNames.PLAYER and not (card_to is None) and i_to.can_recieve_item(card_from)
+            return (
+                i_to < FieldNames.PLAYER
+                and not (card_to is None)
+                and i_to.can_recieve_item(card_from)
+            )
         elif isinstance(card_from, Event):
             pass
 
