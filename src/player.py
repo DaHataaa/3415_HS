@@ -54,6 +54,10 @@ class Player:
             self.push_to_stack(self.field.cards_list[index])
             self.remove_from_field(index)
 
+    def can_be_attacked(self, i_to):
+        return bool(self.field.get_card(i_to))
+
+
     def can_play_card(self, i_from, i_to):
         card_from = self.hand.get_card(i_from)
         card_to = self.field.get_card(i_to)

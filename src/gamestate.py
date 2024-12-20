@@ -1,4 +1,7 @@
 from src.player import *
+from src.resource import RESOURCE as res
+from enum import Enum
+from src.field import Field as field
 
 
 class GameState:
@@ -7,10 +10,10 @@ class GameState:
         self.defender = p2 if p2 is not None else Player()
 
     def desk_created(self):
-        self.defender.change_mana(4, 3)  # Возможно нужно что-то добавить
+        self.defender.change_mana(field.PLAYER, res['mana_add_per_turn'])  # Возможно нужно что-то добавить
 
     def attack(self, i_from, i_to):
-        if self.defender.can_play_card(i_from, i_to):
+        if self.defender.can_be_attacked(i_to):
             self.defender.change_card_hp(-self.attacker.get_card_dmg(i_from))
             self.defender  # Вроде надо проверку на ent_kill сделать
             return True
@@ -24,5 +27,5 @@ class GameState:
         self.attacker, self.defender = self.defender, self.attacker
 
     def next_turn(self, is_skipped):
-        (self.defender.change_mana(4, 3)) if is_skipped else 1
+        self.defender.change_mana(field.PLAYER, res['mana_add_per_turn'])
         self.swap_players()
