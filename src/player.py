@@ -6,8 +6,6 @@ from src.field import Field, FieldNames
 from src.hand import Hand
 from src.stack import Stack
 
-from src.player_interface import IPlayerInput
-from src.players import cli
 
 
 class Player:
@@ -16,15 +14,13 @@ class Player:
         self,
         field: Field | None = None,
         hand: Hand | None = None,
-        stack: Stack | None = None,
-        input_interface: Type[IPlayerInput] = cli.CLI,
+        stack: Stack | None = None
     ):
         self.field = field if field is not None else Field()
         self.hand = hand if hand is not None else Hand()
         self.stack = stack if stack is not None else Stack()
-        self.input_interface = input_interface
 
-    def get_hand(self, index):
+    def get_hand(self):
         return self.hand
 
     def push_to_stack(self, card):
