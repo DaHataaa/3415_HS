@@ -1,46 +1,60 @@
-from src.player_interface import IPlayerInput
 from src.field import FieldNames
-from src.gameserver import GameServer as gs
 import os
 
-class CLI(IPlayerInput):
+class CLI():
+    def __init__(self):
+        self.action = None
+        self.chose = None
 
     def choose_cards(self, all_cards: dict):
         pass
 
-    def choose_card_to_play(self) -> tuple[int, FieldNames]:
-        chose = input(
-                """
-                        Действие:
-                    ret - Вернуться к выбору действий
-                    1-4 - Использовать карту с руки
+    def __repr__(self):
+        return
+
+    def choose_card_to_play(self):
+        self.chose = input("""
+                        Введите номер карты на руке и номер ячейки через пробел
+                      1-4 - Индекс карты
+                      1-4 - Индекс ячейки
+                      
                     """)
-        match chose:
-            case 'ret': pass
-            case _: pass
+        match self.chose[0]:
+            case '1'|'2'|'3'|'4': 
+                match self.chose[2]:
+                    case '1'|'2'|'3'|'4': return True
 
-    def choose_unit_to_attack(self) -> tuple[FieldNames, FieldNames]:
-        pass
 
-    def turn_end(self):
-        pass
+    def choose_unit_to_attack(self):
+        self.chose = input("""
+                        Введите номер своего юнита и номер карты противника через пробел
+                      1-4 - Юниты
+                      5 - Игрок
+                    
+                      """)
+        match self.chose[0]:
+            case '1'|'2'|'3'|'4': 
+                match self.chose[2]:
+                    case '1'|'2'|'3'|'4'|'5': return True
 
-    def choose_current_turn(self, game_server):
-        os.system('cls')
-        print(f"""
-                    На руках есть: {game_server.get_def_hand()}
-                    """)
-        match int(
-            input(
-                """
-                        Действие:
-                    1. Сыграть карту с руки
-                    2. Атаковать юнита
-                    3. Закончить ход
-                    """
-            )
-        ):
-            case 1: self.choose_card_to_play()
-            case 2: self.choose_unit_to_attack()
-            case 3: self.turn_end()
 
+    def choose_current_turn(self, hand):
+        while True:
+            os.system('cls')
+            print(f"""
+                            На руках есть: {hand}
+                            """)
+            self.action = input("""
+                            Действие:
+                        1. Сыграть карту с руки
+                        2. Атаковать юнита
+                        3. Закончить ход
+                        """)
+            match self.action:
+                case '1': 
+                    if self.choose_card_to_play(): return (self.action, int(self.chose[0]), int(self.chose[2]))
+                case '2': 
+                    if self.choose_unit_to_attack(): return (self.action, int(self.chose[0]), int(self.chose[2]))
+                case '3': 
+                    return (self.action, None)
+                case _: continue
