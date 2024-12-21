@@ -8,5 +8,4 @@ RESOURCE = {
     "card_width": 75,
     "card_height": 100,
     "select_add_size": 30,
-    "mana_add_per_turn": 3,
 }

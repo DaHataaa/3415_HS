@@ -1,7 +1,7 @@
 from src.player import *
-from src.resource import RESOURCE as res
+from src.players.players_stats import stats as res
 from enum import Enum
-from src.field import Field as field
+from src.field import Field, FieldNames
 
 
 class GameState:
@@ -9,8 +9,11 @@ class GameState:
         self.attacker = p1 if p1 is not None else Player()
         self.defender = p2 if p2 is not None else Player()
 
-    def desk_created(self):
-        self.defender.change_mana(field.PLAYER, res['mana_add_per_turn'])  # Возможно нужно что-то добавить
+    def deck_created(self):
+        self.defender.change_mana(FieldNames.PLAYER, res['mana_add_per_turn'])
+        self.defender.form_hand()
+        self.attacker.change_mana(FieldNames.PLAYER, res['mana_add_per_turn'])
+        self.attacker.form_hand()
 
     def attack(self, i_from, i_to):
         if self.defender.can_be_attacked(i_to):
@@ -27,5 +30,5 @@ class GameState:
         self.attacker, self.defender = self.defender, self.attacker
 
     def next_turn(self, is_skipped):
-        self.defender.change_mana(field.PLAYER, res['mana_add_per_turn'])
+        self.defender.change_mana(FieldNames.PLAYER, res['mana_add_per_turn'])
         self.swap_players()

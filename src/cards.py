@@ -1,4 +1,5 @@
 import json
+from src.players.players_stats import stats as s
 
 
 class Card:
@@ -121,11 +122,18 @@ class Event(Card):
 
 
 class PlayerUnit(Unit):
-    def __init__(self, id, name, fract, mn, dmg, hp, items):
-        super().__init__(
-            id=id, name=name, fract=fract, mn=mn, dmg=dmg, hp=hp, items=items
-        )
+    def __init__(self, id = s['id'], name = s['name'], fract = s['fract'], mn = s['mn'], dmg = s['dmg'], hp = s['hp'], items = s['items']):
+        self.id = id
+        self.name = name
+        self.fract = fract
+        self.mn = mn
+        self.dmg = dmg
+        self.hp = hp
+        self.items = items
 
+    def __str__(self):
+        return str(self.id)
+    
     @classmethod
     def load(cls, file):
         return cls(
@@ -137,7 +145,6 @@ class PlayerUnit(Unit):
             hp=file["hp"],
             items=file["items"],
         )
-
 
 @staticmethod
 def load_cards(cards_repo):

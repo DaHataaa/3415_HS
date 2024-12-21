@@ -1,4 +1,5 @@
 from enum import IntEnum
+from src.cards import *
 
 
 class FieldNames(IntEnum):
@@ -12,7 +13,7 @@ class FieldNames(IntEnum):
 
 class Field:
     def __init__(self, cards_list: list | None = None):
-        cards_list = cards_list if cards_list != None else [None] * len(FieldNames)
+        self.cards_list = cards_list if cards_list != None else [None] * (len(FieldNames) - 2) + [PlayerUnit(), None]
 
     def __eq__(self, other):
 
@@ -20,6 +21,9 @@ class Field:
             if self.cards_list[i] != other.cards_list[i]:
                 return False
         return True
+
+    def change_mp(self, ind, d_mn):
+        self.cards_list[ind].change_mp(d_mn)
 
     def get_card(self, index):
         return self.cards_list[index]

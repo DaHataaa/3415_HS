@@ -1,16 +1,14 @@
-from src.field import FieldNames
 import os
+from src.cards import load_cards
 
 class CLI():
     def __init__(self):
         self.action = None
         self.chose = None
 
-    def choose_cards(self, all_cards: dict):
-        pass
-
-    def __repr__(self):
-        return
+    def choose_cards(self):
+        load_cards('cards/')
+        self.chose = input()
 
     def choose_card_to_play(self):
         self.chose = input("""
@@ -19,23 +17,17 @@ class CLI():
                       1-4 - Индекс ячейки
                       
                     """)
-        match self.chose[0]:
-            case '1'|'2'|'3'|'4': 
-                match self.chose[2]:
-                    case '1'|'2'|'3'|'4': return True
+        if self.chose[0] in ('1','2','3','4') and self.chose[2] in ('1','2','3','4'): return True
 
 
     def choose_unit_to_attack(self):
         self.chose = input("""
                         Введите номер своего юнита и номер карты противника через пробел
                       1-4 - Юниты
-                      5 - Игрок
+                      5   - Игрок
                     
                       """)
-        match self.chose[0]:
-            case '1'|'2'|'3'|'4': 
-                match self.chose[2]:
-                    case '1'|'2'|'3'|'4'|'5': return True
+        if self.chose[0] in ('1','2','3','4') and self.chose[2] in ('1','2','3','4','5'): return True
 
 
     def choose_current_turn(self, hand):

@@ -5,6 +5,7 @@ from src.cards import *
 from src.field import Field, FieldNames
 from src.hand import Hand
 from src.stack import Stack
+from src.players.cli import CLI
 
 
 
@@ -19,6 +20,10 @@ class Player:
         self.field = field if field is not None else Field()
         self.hand = hand if hand is not None else Hand()
         self.stack = stack if stack is not None else Stack()
+        self.cli = CLI()
+
+    def form_hand(self):
+        self.hand.cards_list = self.cli.choose_cards()
 
     def get_hand(self):
         return self.hand
@@ -39,7 +44,7 @@ class Player:
         self.field.cards_list[index].change_hp(d_hp)
 
     def change_mana(self, index, d_mhp):
-        self.field.cards_list[index].change_mp(d_mhp)
+        self.field.change_mp(index, d_mhp)
 
     def change_card_dmg(self, index, d_dmg):
         self.field.cards_list[index].change_dmg(d_dmg)

@@ -40,6 +40,7 @@ class GameServer:
 
     def create_deck_phase(self):
         self.game_state = GameState()
+        self.game_state.deck_created()
         self.current_phase = GamePhase.CURRENT_TURN
 
     def current_turn(self):
@@ -60,5 +61,3 @@ class GameServer:
 
     def end_game():
         exit()
-
-    
