@@ -1,5 +1,7 @@
 import os
-from src.cards import load_cards, Unit, Item, Event, Location
+from src.cards import load_cards
+from field import FieldNames
+
 class CLI():
     def __init__(self):
         self.action = None
@@ -15,6 +17,7 @@ class CLI():
 {'\n'.join([f'{i}. {loaded[1][i]}' for i in range(len(loaded[1]))])}
 
 ''').split(' ')
+        self.chose = [0,1,2,3,4,5,6,7] #####
         self.chose = list(map(int, self.chose[:8]))
         return dict(zip([loaded[1][i] for i in self.chose],[loaded[0][loaded[1][i]] for i in self.chose]))
 
@@ -39,11 +42,16 @@ class CLI():
         if self.chose[0] in ('1','2','3','4') and self.chose[2] in ('1','2','3','4','5'): return True
 
 
-    def choose_current_turn(self, hand):
+    def choose_current_turn(self, hand, d_f, a_f):
         while True:
-            #os.system('cls')
+            os.system('cls')
             print(f"""
-                            На руках есть: {hand}
+                            Здоровье противника: {d_f.cards_list[FieldNames.PLAYER].hp} 
+                  
+                            Поле противника:  {d_f}     
+                            Ваше поле:        {a_f}
+
+                            На руках есть:   {hand}
                             """)
             self.action = input("""
                             Действие:
@@ -53,9 +61,13 @@ class CLI():
                         """)
             match self.action:
                 case '1': 
-                    if self.choose_card_to_play(): return (self.action, int(self.chose[0]), int(self.chose[2]))
+                    if self.choose_card_to_play(): return (self.action, int(self.chose[0])-1, int(self.chose[2])-1)
                 case '2': 
-                    if self.choose_unit_to_attack(): return (self.action, int(self.chose[0]), int(self.chose[2]))
+                    if self.choose_unit_to_attack(): return (self.action, int(self.chose[0])-1, int(self.chose[2])-1)
                 case '3': 
                     return (self.action, None)
                 case _: continue
+
+    def end_game(self):
+        os.system('cls')
+        print('Вы победили!')

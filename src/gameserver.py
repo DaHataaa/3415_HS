@@ -25,15 +25,12 @@ class GameServer:
         GamePhase.CREATE_DECK: self.create_deck_phase,
         GamePhase.CURRENT_TURN: self.current_turn,
         GamePhase.SWAP_PLAYERS: self.swap_players_phase,
-        GamePhase.GAME_END: self.end_game,
-        }
-
-    def get_def_hand(self):
-        return self.game_state.defender.get_hand()
+        GamePhase.GAME_END: self.end_game}
 
     def run(self):
-        while self.current_phase != GamePhase.GAME_END:
+        while 'run':
             self.run_one_step()
+        
 
     def run_one_step(self):
         self.phases[self.current_phase]()
@@ -44,20 +41,28 @@ class GameServer:
         self.current_phase = GamePhase.CURRENT_TURN
 
     def current_turn(self):
+        self.current_phase = GamePhase.SWAP_PLAYERS
         while True:
-            inp = self.cli.choose_current_turn(self.get_def_hand())
+            inp = self.cli.choose_current_turn(self.game_state.attacker.get_hand(), self.game_state.defender.get_field(), self.game_state.attacker.get_field())
+
             match int(inp[0]):
                 case 1:
                     self.game_state.play_card(inp[1], inp[2])
+
                 case 2:
                     self.game_state.attack(inp[1], inp[2])
+                    if self.game_state.defender.kill_check(inp[2]):
+                        if self.game_state.defender.field.get_card(FieldNames.PLAYER) is None:
+                            self.current_phase = GamePhase.GAME_END
+                            break
+
                 case 3:
                     break
-        self.current_phase = GamePhase.SWAP_PLAYERS
 
     def swap_players_phase(self):
         self.game_state.swap_players()
         self.current_phase = GamePhase.CURRENT_TURN
 
-    def end_game():
+    def end_game(self):
+        self.cli.end_game()
         exit()

@@ -18,6 +18,9 @@ class Card:
             and self.mn == other.mn
         )
 
+    def __str__(self):
+        return str(self.id)
+
     @classmethod
     def load(cls, file):
         return cls(id=file["id"], name=file["name"], fract=file["fract"], mn=file["mn"])
@@ -82,6 +85,9 @@ class Unit(Card):
 
     def change_hp(self, d_hp):
         self.hp += d_hp
+
+    def check_hp(self):
+        return bool(self.hp > 0)
 
     def change_mp(self, d_mn):
         self.mn += d_mn

@@ -15,6 +15,12 @@ class Field:
     def __init__(self, cards_list: list | None = None):
         self.cards_list = cards_list if cards_list != None else [None] * (len(FieldNames) - 2) + [PlayerUnit(), None]
 
+    def __repr__(self):
+        return self.cards_list
+
+    def __str__(self):
+        return ' '.join(list(map(str, self.cards_list)))
+    
     def __eq__(self, other):
 
         for i in range(len(self.cards_list)):

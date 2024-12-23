@@ -9,4 +9,10 @@ class Hand(Field):
         return self.cards_list
 
     def __str__(self):
-        return str(self.cards_list)
+        return ' '.join(map(str,self.cards_list))
+    
+    def remove_card(self, index):
+        self.cards_list[index] = None
+
+    def get_card(self, index):
+        return self.cards_list[index]

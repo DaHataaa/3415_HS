@@ -19,14 +19,14 @@ class GameState:
 
     def attack(self, i_from, i_to):
         if self.defender.can_be_attacked(i_to):
-            self.defender.change_card_hp(-self.attacker.get_card_dmg(i_from))
-            self.defender  # Вроде надо проверку на ent_kill сделать
-            return True
-        return False  # По факту функция должна также возвращать состояние атаки(возможно переделать в gameserver)
+            self.defender.change_card_hp(i_to,-self.attacker.get_card_dmg(i_from))
+                    
 
     def play_card(self, i_from, i_to):
         if self.attacker.can_play_card(i_from, i_to):
             self.attacker.play_card(i_from, i_to)
+        else: 
+            print('Карту не получается разыграть')
 
     def swap_players(self):
         self.attacker, self.defender = self.defender, self.attacker

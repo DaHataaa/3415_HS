@@ -33,6 +33,12 @@ class Player:
 
     def get_hand(self):
         return self.hand
+    
+    def get_field(self):
+        return self.field
+
+    def get_card_param(self, id):
+        return self.stack.cards_list[id]
 
     def push_to_stack(self, card):
         self.stack.push(card)
@@ -41,13 +47,22 @@ class Player:
         self.field.remove_card(index)
 
     def get_card_dmg(self, index):
-        return self.field.get_card(index).get_dmg()
+        return self.field.get_card(index).dmg
 
     def get_card_hp(self, index):
         return self.field.get_card(index).get_hp()
+    
+    def get_pl_hp(self):
+        return self.field.cards_list[FieldNames.PLAYER]
 
     def change_card_hp(self, index, d_hp):
         self.field.cards_list[index].change_hp(d_hp)
+
+    def kill_check(self, index):
+        if not self.field.cards_list[index].check_hp():
+            self.field.remove_card(index)
+            return True
+        else: return False
 
     def change_mana(self, index, d_mhp):
         self.field.change_mp(index, d_mhp)
@@ -66,12 +81,12 @@ class Player:
 
 
     def can_play_card(self, i_from, i_to):
-        card_from = self.hand.get_card(i_from)
+        card_from = self.get_card_param(self.hand.get_card(i_from))
         card_to = self.field.get_card(i_to)
 
         if card_from is None:
             return False
-        if self.men_hp < card_from.mn:
+        if self.field.cards_list[FieldNames.PLAYER].mn < card_from.mn:
             return False
 
         if isinstance(card_from, Location):
@@ -90,14 +105,12 @@ class Player:
         return False
 
     def play_card(self, i_from, i_to):
-        card_from = self.hand.get_card(i_from)
-
-        self.hand.remove_card(i_from)
-        self.hand.place_card(self.stack.pop(), i_from)
+        card_from = self.stack.cards_list[self.hand.get_card(i_from)]
 
         if self.field.get_card(i_to) == None:
             self.field.place_card(card_from, i_to)
         else:
             self.field.cards_list[i_to].recieve_item(card_from)
-
-        self.field.cards_list[FieldNames.PLAYER].change_mana(-card_from.mn)
+        
+        self.field.cards_list[FieldNames.PLAYER].change_mp(-card_from.mn)
+        self.hand.remove_card(i_from)

@@ -1,10 +1,10 @@
 stats = {
-    'id': 1, 
+    'id': 'Default_Player', 
     'name': 'player', 
     'fract': None, 
-    'mn': 7, 
+    'mn': 50, 
     'dmg': 0, 
-    'hp': 100, 
+    'hp': 1, 
     'items': None,
     "mana_add_per_turn": 3
 }
