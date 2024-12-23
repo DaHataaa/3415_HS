@@ -6,6 +6,7 @@ from src.field import Field, FieldNames
 from src.hand import Hand
 from src.stack import Stack
 from src.players.cli import CLI
+from random import choice
 
 
 
@@ -22,8 +23,13 @@ class Player:
         self.stack = stack if stack is not None else Stack()
         self.cli = CLI()
 
+    def form_stack(self):
+        self.stack.cards_list = self.cli.choose_cards()
+
     def form_hand(self):
-        self.hand.cards_list = self.cli.choose_cards()
+        for i in range(len(self.hand.cards_list)):
+            l = choice(list(set(self.stack.cards_list) - set(self.hand.cards_list)))
+            self.hand.cards_list[i] = l if self.hand.cards_list[i] == None else i
 
     def get_hand(self):
         return self.hand

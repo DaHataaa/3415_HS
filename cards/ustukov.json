@@ -4,5 +4,6 @@
 	"fract": "EVM",
 	"mn": 10,
 	"dmg": 5,
-	"hp": 13
+	"hp": 13,
+	"items": null
 }

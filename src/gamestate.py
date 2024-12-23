@@ -11,8 +11,10 @@ class GameState:
 
     def deck_created(self):
         self.defender.change_mana(FieldNames.PLAYER, res['mana_add_per_turn'])
+        self.defender.form_stack()
         self.defender.form_hand()
         self.attacker.change_mana(FieldNames.PLAYER, res['mana_add_per_turn'])
+        self.attacker.form_stack()
         self.attacker.form_hand()
 
     def attack(self, i_from, i_to):

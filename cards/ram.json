@@ -4,5 +4,6 @@
 	"fract": "EVM",
 	"mn": 12,
 	"dmg_boost": 5,
-	"hp_boost": 2
+	"hp_boost": 2,
+	"items": null
 }

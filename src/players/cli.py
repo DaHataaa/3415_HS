@@ -1,14 +1,23 @@
 import os
-from src.cards import load_cards
-
+from src.cards import load_cards, Unit, Item, Event, Location
 class CLI():
     def __init__(self):
         self.action = None
         self.chose = None
 
+
     def choose_cards(self):
-        load_cards('cards/')
-        self.chose = input()
+        loaded = load_cards('cards/')
+        self.chose = input(f''' Введите номера карт, которые хотите 
+                                видеть в колоде через пробел
+                                (в колоду попадут первые 8):
+                           
+{'\n'.join([f'{i}. {loaded[1][i]}' for i in range(len(loaded[1]))])}
+
+''').split(' ')
+        self.chose = list(map(int, self.chose[:8]))
+        return dict(zip([loaded[1][i] for i in self.chose],[loaded[0][loaded[1][i]] for i in self.chose]))
+
 
     def choose_card_to_play(self):
         self.chose = input("""
@@ -32,7 +41,7 @@ class CLI():
 
     def choose_current_turn(self, hand):
         while True:
-            os.system('cls')
+            #os.system('cls')
             print(f"""
                             На руках есть: {hand}
                             """)

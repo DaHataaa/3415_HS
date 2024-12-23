@@ -66,7 +66,7 @@ class Unit(Card):
             mn=file["mn"],
             dmg=file["dmg"],
             hp=file["hp"],
-            items=file["items"],
+            items=file["items"]
         )
 
     def can_recieve_item(self, item):

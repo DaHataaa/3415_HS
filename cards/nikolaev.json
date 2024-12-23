@@ -4,5 +4,6 @@
 	"fract": "PHYS",
 	"mn": 11,
 	"dmg": 5,
-	"hp": 14
+	"hp": 14,
+	"items": null
 }
