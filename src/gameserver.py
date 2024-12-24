@@ -1,13 +1,10 @@
 from gamestate import GameState
-from hand import Hand
-from field import Field, FieldNames
-from stack import Stack
+from field import FieldNames
 from players.cli import CLI
-import enum
-import random
+from enum import StrEnum
 
 
-class GamePhase(enum.StrEnum):
+class GamePhase(StrEnum):
     CREATE_DECK = "Create deck"
     CURRENT_TURN = "Current turn"
     UNIT_ATTACK = "Unit attack"
@@ -30,7 +27,6 @@ class GameServer:
     def run(self):
         while 'run':
             self.run_one_step()
-        
 
     def run_one_step(self):
         self.phases[self.current_phase]()
@@ -61,6 +57,8 @@ class GameServer:
 
     def swap_players_phase(self):
         self.game_state.swap_players()
+        self.game_state.update_hand(self.game_state.attacker)
+        self.game_state.update_hand(self.game_state.defender)
         self.current_phase = GamePhase.CURRENT_TURN
 
     def end_game(self):

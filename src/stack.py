@@ -1,7 +1,8 @@
 class Stack:
 
-    def __init__(self, cards_list=None):
-        self.cards_list = cards_list if cards_list != None else {}
+    def __init__(self, cards_list = None):
+        self.cards_list = cards_list if cards_list != None else []
+        self.cards_origins = {}
 
     def __repr__(self):
         return self.cards_list
@@ -14,6 +15,9 @@ class Stack:
             if self.cards_list[i] != other.cards_list[i]:
                 return False
         return True
+    
+    def form_orig(self):
+        self.cards_origins = dict(self.cards_list)
 
     def get_top_card(self):
         return self.cards_list[-1]
@@ -22,4 +26,4 @@ class Stack:
         self.cards_list.insert(0, card)
 
     def pop(self):
-        return self.cards_list.pop()  # todo: pop from empty stack!!!
+        return self.cards_list.pop()

@@ -24,21 +24,22 @@ class Player:
         self.cli = CLI()
 
     def form_stack(self):
-        self.stack.cards_list = self.cli.choose_cards()
+        self.stack.cards_list, self.stack.cards_origins = self.cli.choose_cards()
 
     def form_hand(self):
         for i in range(len(self.hand.cards_list)):
-            l = choice(list(set(self.stack.cards_list) - set(self.hand.cards_list)))
-            self.hand.cards_list[i] = l if self.hand.cards_list[i] == None else i
+            if self.hand.cards_list[i] is None:
+                self.hand.cards_list[i] = self.stack.get_top_card()
+                self.stack.pop()
+
+    def get_cIDed(self, ind_in_hand):
+        return self.stack.cards_origins[self.hand.get_card(ind_in_hand)]
 
     def get_hand(self):
         return self.hand
     
     def get_field(self):
         return self.field
-
-    def get_card_param(self, id):
-        return self.stack.cards_list[id]
 
     def push_to_stack(self, card):
         self.stack.push(card)
@@ -60,7 +61,7 @@ class Player:
 
     def kill_check(self, index):
         if not self.field.cards_list[index].check_hp():
-            self.field.remove_card(index)
+            self.remove_from_field(index)
             return True
         else: return False
 
@@ -77,12 +78,12 @@ class Player:
             self.remove_from_field(index)
 
     def can_be_attacked(self, i_to):
-        return bool(self.field.get_card(i_to))
+        return self.field.get_card(i_to) is not None
 
 
     def can_play_card(self, i_from, i_to):
-        card_from = self.get_card_param(self.hand.get_card(i_from))
-        card_to = self.field.get_card(i_to)
+        card_from = self.hand.get_card(i_from)
+        card_to   = self.field.get_card(i_to)
 
         if card_from is None:
             return False
@@ -96,8 +97,8 @@ class Player:
         elif isinstance(card_from, Item):
             return (
                 i_to < FieldNames.PLAYER
-                and not (card_to is None)
-                and i_to.can_recieve_item(card_from)
+                and card_to is not None
+                and card_to.can_recieve_item(card_from)
             )
         elif isinstance(card_from, Event):
             pass
@@ -105,12 +106,13 @@ class Player:
         return False
 
     def play_card(self, i_from, i_to):
-        card_from = self.stack.cards_list[self.hand.get_card(i_from)]
+        card_from = self.hand.get_card(i_from)
+        card_to   = self.field.get_card(i_to)
 
-        if self.field.get_card(i_to) == None:
+        if self.field.get_card(i_to) is None:
             self.field.place_card(card_from, i_to)
         else:
-            self.field.cards_list[i_to].recieve_item(card_from)
+            card_to.recieve_item(card_from)
         
         self.field.cards_list[FieldNames.PLAYER].change_mp(-card_from.mn)
         self.hand.remove_card(i_from)

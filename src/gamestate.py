@@ -9,6 +9,9 @@ class GameState:
         self.attacker = p1 if p1 is not None else Player()
         self.defender = p2 if p2 is not None else Player()
 
+    def update_hand(self, player: Player):
+        player.form_hand()
+
     def deck_created(self):
         self.defender.change_mana(FieldNames.PLAYER, res['mana_add_per_turn'])
         self.defender.form_stack()
@@ -20,7 +23,6 @@ class GameState:
     def attack(self, i_from, i_to):
         if self.defender.can_be_attacked(i_to):
             self.defender.change_card_hp(i_to,-self.attacker.get_card_dmg(i_from))
-                    
 
     def play_card(self, i_from, i_to):
         if self.attacker.can_play_card(i_from, i_to):
