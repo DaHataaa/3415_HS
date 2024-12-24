@@ -4,6 +4,5 @@
 	"fract": "MATH",
 	"mn": 20,
 	"dmg_boost": 5,
-	"hp_boost": 13,
-	"items": null
+	"hp_boost": 13
 }

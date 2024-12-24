@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
-from src.gameserver import GamePhase
-from src.field import FieldNames
+from gameserver import GamePhase
+from field import FieldNames
 
 
 class IPlayerInput(ABC):

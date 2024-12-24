@@ -1,5 +1,5 @@
 from enum import IntEnum
-from src.cards import *
+from cards import *
 
 
 class FieldNames(IntEnum):

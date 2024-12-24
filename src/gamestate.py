@@ -1,7 +1,7 @@
-from src.player import *
-from src.players.players_stats import stats as res
+from player import *
+from players.players_stats import stats as res
 from enum import Enum
-from src.field import Field, FieldNames
+from field import Field, FieldNames
 
 
 class GameState:

@@ -1,11 +1,11 @@
 from enum import Enum
 from typing import Type
 
-from src.cards import *
-from src.field import Field, FieldNames
-from src.hand import Hand
-from src.stack import Stack
-from src.players.cli import CLI
+from cards import *
+from field import Field, FieldNames
+from hand import Hand
+from stack import Stack
+from players.cli import CLI
 from random import choice
 
 

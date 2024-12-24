@@ -1,5 +1,4 @@
-from src.gameserver import GameServer
-from src.resource import RESOURCE as res
+from gameserver import GameServer
 
 class application_cli:
     def __init__(self):

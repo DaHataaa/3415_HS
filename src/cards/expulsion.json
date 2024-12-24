@@ -2,6 +2,5 @@
 	"class": "event",
 	"name": "Отчисление",
 	"fract": "ALL",
-	"mn": 20,
-	"items": null
+	"mn": 20
 }

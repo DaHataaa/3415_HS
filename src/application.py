@@ -1,7 +1,7 @@
 import pygame
 
-from src.gameserver import GameServer
-from src.resource import RESOURCE as res
+from gameserver import GameServer
+from resource import RESOURCE as res
 
 
 class Application:

@@ -1,8 +1,8 @@
-from src.gamestate import GameState
-from src.hand import Hand
-from src.field import Field, FieldNames
-from src.stack import Stack
-from src.players.cli import CLI
+from gamestate import GameState
+from hand import Hand
+from field import Field, FieldNames
+from stack import Stack
+from players.cli import CLI
 import enum
 import random
 

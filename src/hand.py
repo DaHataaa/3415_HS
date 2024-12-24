@@ -1,4 +1,4 @@
-from src.field import Field
+from field import Field
 
 
 class Hand(Field):

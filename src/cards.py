@@ -1,5 +1,5 @@
 import json
-from src.players.players_stats import stats as s
+from players.players_stats import stats as s
 
 
 class Card:
