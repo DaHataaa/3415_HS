@@ -53,6 +53,10 @@ class GameServer:
                             break
 
                 case 3:
+                    info = self.game_state.card_info(2 - inp[1]%2, inp[2])
+                    self.cli.write(20, [f'{i} = {info[i]}' for i in(list(info))]+['\nПрожмите enter для продолжения игры'], 1)
+
+                case 4:
                     break
 
     def swap_players_phase(self):

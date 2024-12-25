@@ -15,6 +15,11 @@ class CLI():
 
 
 
+    def write(self, tabs, msg, PoI):
+        (input if PoI else print)('\n' + ' '*tabs+ (msg if isinstance(msg, str) else ('\n' + ' '*tabs).join(msg)))
+
+
+
     def choose_cards(self):
 
         loaded = load_cards('cards/')
@@ -31,36 +36,8 @@ class CLI():
             print(f'Добавлено {9 - len(self.chose)} случайных недостающих карт')
             self.chose = choices(range(len(loaded[1])), k = 9 - len(self.chose))
         self.chose = list(map(int, self.chose[:8]))
-        print(self.chose)
-        print(dict(zip([loaded[1][i] for i in self.chose], [loaded[0][loaded[1][i]] for i in self.chose])))
+        
         return [loaded[0][loaded[1][i]] for i in self.chose], dict(zip([loaded[1][i] for i in self.chose], [loaded[0][loaded[1][i]] for i in self.chose]))
-
-
-
-    def choose_card_to_play(self):
-
-        self.chose = input("""
-                        Введите номер карты на руке и номер ячейки через пробел
-                      1-4 - Индекс карты
-                      1-4 - Индекс ячейки | 5 - Игрока | 6 - Локации
-                      
-                    """).split(' ')
-        
-        if self.chose[0] in ('1','2','3','4') and self.chose[-1] in ('1','2','3','4','5','6'): return True
-        else: self.I.flag = 1
-
-
-    def choose_unit_to_attack(self):
-
-        self.chose = input("""
-                        Введите номер своего юнита и номер карты противника через пробел
-                      1-4 - Юниты
-                      5   - Игрок
-                    
-                      """).split(' ')
-        
-        if self.chose[0] in ('1','2','3','4') and self.chose[-1] in ('1','2','3','4','5'): return True
-        else: self.I.flag = 1
 
 
 
@@ -82,17 +59,63 @@ class CLI():
                             Действие:
                         1. Сыграть карту с руки
                         2. Атаковать юнита
-                        3. Закончить ход
-                        """)
+                        3. Узнать информацию по карте
+                        4. Закончить ход
+                                
+                       """)
 
             match self.action:
                 case '1': 
-                    if self.choose_card_to_play(): return (self.action, int(self.chose[0])-1, int(self.chose[-1])-1)
+                    if self.choose_card_to_play(): return (self.action, int(self.chose[0]) - 1, int(self.chose[-1]) - 1)
                 case '2': 
-                    if self.choose_unit_to_attack(): return (self.action, int(self.chose[0])-1, int(self.chose[-1])-1)
+                    if self.choose_unit_to_attack(): return (self.action, int(self.chose[0]) - 1, int(self.chose[-1]) - 1)
                 case '3': 
+                    if self.check_card_info(): return (self.action, int(self.chose[0]), int(self.chose[-1]) - 1)
+                case '4':
                     return (self.action, None)
                 case _: self.I.flag = 1; continue
+
+
+
+    def choose_card_to_play(self):
+
+        self.chose = input("""
+                        Введите номер карты на руке и номер ячейки через пробел
+                      1-4 - Индекс карты
+                      1-4 - Индекс ячейки | 5 - Игрока | 6 - Локации
+                
+                    """).split(' ')
+        
+        if self.chose[0] in ('1','2','3','4') and self.chose[-1] in ('1','2','3','4','5','6'): return True
+        else: self.I.flag = 1
+
+
+
+    def choose_unit_to_attack(self):
+
+        self.chose = input("""
+                        Введите номер своего юнита и номер карты противника через пробел
+                      1-4 - Юниты
+                      5   - Игрок
+                
+                      """).split(' ')
+        
+        if self.chose[0] in ('1','2','3','4') and self.chose[-1] in ('1','2','3','4','5'): return True
+        else: self.I.flag = 1
+
+
+
+    def check_card_info(self):
+
+        self.chose = input("""
+                        Введите область выбора и номер ячейки через пробел
+                      1|2|3|4 - Карта на вашей руке|вашем поле|руке противника|поле противника
+                      1-4 - Индекс ячейки | 5 - Игрока | 6 - Локации
+                
+                    """).split(' ')
+        
+        if self.chose[0] in ('1','3') and self.chose[1] in ('1','2','3','4') or self.chose[0] in ('2', '4') and self.chose[1] in ('1','2','3','4','5','6'): return True
+        else: self.I.flag = 1
 
 
 

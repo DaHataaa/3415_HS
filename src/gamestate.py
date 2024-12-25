@@ -36,3 +36,6 @@ class GameState:
     def next_turn(self, is_skipped):
         self.defender.change_mana(FieldNames.PLAYER, res['mana_add_per_turn'])
         self.swap_players()
+
+    def card_info(self, area, index):
+        return (self.attacker if area in (1, 2) else self.defender).get_card_info(area, index)

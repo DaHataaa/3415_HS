@@ -34,6 +34,12 @@ class Player:
 
     def get_cIDed(self, ind_in_hand):
         return self.stack.cards_origins[self.hand.get_card(ind_in_hand)]
+    
+    def get_card_info(self, area, index):
+        card = (self.hand if area == 1 else self.field).get_card(index)
+
+        if card is not None: return card.__dict__
+        else: return 'Карта отсутствует'
 
     def get_hand(self):
         return self.hand
@@ -45,13 +51,14 @@ class Player:
         self.stack.push(card)
 
     def remove_from_field(self, index):
+        self.stack.push(self.field.get_card(index))
         self.field.remove_card(index)
 
     def get_card_dmg(self, index):
         return self.field.get_card(index).dmg
 
     def get_card_hp(self, index):
-        return self.field.get_card(index).get_hp()
+        return self.field.get_card(index).hp
     
     def get_pl_hp(self):
         return self.field.cards_list[FieldNames.PLAYER]
