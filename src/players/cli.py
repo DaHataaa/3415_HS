@@ -121,4 +121,4 @@ class CLI():
 
     def end_game(self):
         os.system('cls')
-        print('Противник отчислен!\nВы победили!')
+        input('Противник отчислен!\nВы победили!')
