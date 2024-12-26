@@ -98,7 +98,7 @@ class Player:
             return False
 
         if isinstance(card_from, Location):
-            return i_to == FieldNames.LOCATION and card_to is None
+            return i_to == FieldNames.LOCATION #and card_to is None
         elif isinstance(card_from, Unit):
             return i_to < FieldNames.PLAYER and card_to is None
         elif isinstance(card_from, Item):
@@ -116,10 +116,18 @@ class Player:
         card_from = self.hand.get_card(i_from)
         card_to   = self.field.get_card(i_to)
 
-        if self.field.get_card(i_to) is None:
+        if isinstance(card_from, Unit):
             self.field.place_card(card_from, i_to)
-        else:
+        elif isinstance(card_from, Item):
             card_to.recieve_item(card_from)
-        
+        elif isinstance(card_from, Location):
+            self.field.place_card(card_from, i_to)
+            for card in self.field.cards_list[:FieldNames.PLAYER]:
+                if card_from.fract == card.fract:
+                    card.change_dmg(self, card_from.dmg_boost)
+                    card.change_hp(self, card_from.hp_boost)
+        elif isinstance(card_from, Event):
+            pass
+
         self.field.cards_list[FieldNames.PLAYER].change_mp(-card_from.mn)
         self.hand.remove_card(i_from)

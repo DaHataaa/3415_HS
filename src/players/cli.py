@@ -114,7 +114,7 @@ class CLI():
                 
                     """).split(' ')
         
-        if self.chose[0] in ('1','3') and self.chose[1] in ('1','2','3','4') or self.chose[0] in ('2', '4') and self.chose[1] in ('1','2','3','4','5','6'): return True
+        if self.chose[0] in ('1','3') and self.chose[-1] in ('1','2','3','4') or self.chose[0] in ('2', '4') and self.chose[-1] in ('1','2','3','4','5','6'): return True
         else: self.I.flag = 1
 
 

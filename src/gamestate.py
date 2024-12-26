@@ -8,15 +8,15 @@ class GameState:
     def __init__(self, p1=None, p2=None):
         self.attacker = p1 if p1 is not None else Player()
         self.defender = p2 if p2 is not None else Player()
+        self.skipped_turn = True
+
 
     def update_hand(self, player: Player):
         player.form_hand()
 
     def deck_created(self):
-        self.defender.change_mana(FieldNames.PLAYER, res['mana_add_per_turn'])
         self.defender.form_stack()
         self.defender.form_hand()
-        self.attacker.change_mana(FieldNames.PLAYER, res['mana_add_per_turn'])
         self.attacker.form_stack()
         self.attacker.form_hand()
 
@@ -33,8 +33,10 @@ class GameState:
     def swap_players(self):
         self.attacker, self.defender = self.defender, self.attacker
 
-    def next_turn(self, is_skipped):
+    def next_turn(self):
         self.defender.change_mana(FieldNames.PLAYER, res['mana_add_per_turn'])
+        self.attacker.change_mana(FieldNames.PLAYER, res['mana_add_per_turn']*(2 if self.skipped_turn else 1))
+        self.skipped_turn = True
         self.swap_players()
 
     def card_info(self, area, index):

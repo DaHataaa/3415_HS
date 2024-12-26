@@ -44,6 +44,7 @@ class GameServer:
             match int(inp[0]):
                 case 1:
                     self.game_state.play_card(inp[1], inp[2])
+                    self.game_state.skipped_turn = False
 
                 case 2:
                     self.game_state.attack(inp[1], inp[2])
@@ -60,7 +61,7 @@ class GameServer:
                     break
 
     def swap_players_phase(self):
-        self.game_state.swap_players()
+        self.game_state.next_turn()
         self.game_state.update_hand(self.game_state.attacker)
         self.game_state.update_hand(self.game_state.defender)
         self.current_phase = GamePhase.CURRENT_TURN
