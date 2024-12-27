@@ -125,8 +125,8 @@ class Player:
             for card in self.field.cards_list[:FieldNames.PLAYER]:
                 if card is None: continue
                 if card_from.fract == card.fract:
-                    card.change_dmg(self, card_from.dmg_boost)
-                    card.change_hp(self, card_from.hp_boost)
+                    card.change_dmg(card_from.dmg_boost)
+                    card.change_hp(card_from.hp_boost)
         elif isinstance(card_from, Event):
             pass
 

@@ -11,7 +11,7 @@ class CLI():
     def __init__(self):
         self.action = None
         self.chose = None
-        self.I = I()
+        self.I = I(0)
 
 
 
@@ -48,6 +48,9 @@ class CLI():
             print(f"""      
                         {self.I.ind[ii.WR_INP]()}
                             Здоровье противника: {d_f.cards_list[FieldNames.PLAYER].hp} 
+                            Мана противника: {d_f.cards_list[FieldNames.PLAYER].mn} 
+                            Ваше здоровье: {a_f.cards_list[FieldNames.PLAYER].hp} 
+                            Ваша мана: {a_f.cards_list[FieldNames.PLAYER].mn} 
                   
                             Поле противника:        {d_f}     
                             Ваше поле:              {a_f}
