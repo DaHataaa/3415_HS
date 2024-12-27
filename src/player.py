@@ -67,7 +67,7 @@ class Player:
         self.field.cards_list[index].change_hp(d_hp)
 
     def kill_check(self, index):
-        if not self.field.cards_list[index].check_hp():
+        if (not self.field.get_card(index).check_hp() if self.field.get_card(index) is not None else False):
             self.remove_from_field(index)
             return True
         else: return False
@@ -123,6 +123,7 @@ class Player:
         elif isinstance(card_from, Location):
             self.field.place_card(card_from, i_to)
             for card in self.field.cards_list[:FieldNames.PLAYER]:
+                if card is None: continue
                 if card_from.fract == card.fract:
                     card.change_dmg(self, card_from.dmg_boost)
                     card.change_hp(self, card_from.hp_boost)

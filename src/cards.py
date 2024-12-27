@@ -16,6 +16,8 @@ class Card:
             and self.name == other.name
             and self.fract == other.fract
             and self.mn == other.mn
+            and self is not None
+            and other is not None
         )
 
     def __str__(self):

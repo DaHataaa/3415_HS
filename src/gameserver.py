@@ -48,14 +48,13 @@ class GameServer:
 
                 case 2:
                     self.game_state.attack(inp[1], inp[2])
-                    if self.game_state.defender.kill_check(inp[2]):
-                        if self.game_state.defender.field.get_card(FieldNames.PLAYER) is None:
-                            self.current_phase = GamePhase.GAME_END
-                            break
+                    if self.game_state.defender.kill_check(inp[2]) and self.game_state.defender.field.get_card(FieldNames.PLAYER) is None:
+                        self.current_phase = GamePhase.GAME_END
+                        break
 
                 case 3:
                     info = self.game_state.card_info(2 - inp[1]%2, inp[2])
-                    self.cli.write(20, [f'{i} = {info[i]}' for i in(list(info))]+['\nПрожмите enter для продолжения игры'], 1)
+                    self.cli.write(20, ([f'{i} = {info[i]}' for i in(list(info))]+['\nПрожмите enter для продолжения игры'] if not isinstance(info, str) else info), 1)
 
                 case 4:
                     break
