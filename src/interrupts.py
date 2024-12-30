@@ -18,7 +18,7 @@ class Interrupt:
         if self.flag:
             self.flag = False
             return 'Неккоректный ввод'
-        else:
-            return ''
-    
+        
+    #def wrong_type(self):
+    #    if     
     

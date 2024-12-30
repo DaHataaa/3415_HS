@@ -3,10 +3,9 @@ from cards import load_cards
 from field import FieldNames
 from random import choices
 from interrupts import Interrupt as I, int_ind as ii
+from players.players_stats import stats
 
 class CLI():
-
-
 
     def __init__(self):
         self.action = None
@@ -24,16 +23,17 @@ class CLI():
 
         loaded = load_cards('cards/')
         os.system('cls')
-        self.chose = input(f''' Введите номера карт, которые хотите 
-                                видеть в колоде через пробел
-                                (в колоду попадут первые 8):
+        self.chose = input(f''' 
+            Введите номера карт, которые хотите 
+            видеть в колоде через пробел
+            (в колоду попадут первые 8):
                            
 {'\n'.join([f'{i}. {loaded[1][i]}' for i in range(len(loaded[1]))])}
 
 ''').split(' ')
 
-        if len(self.chose) < 8:
-            print(f'Добавлено {9 - len(self.chose)} случайных недостающих карт')
+        if len(self.chose) < stats['stack_size']:
+            input(f'Добавлено {stats['stack_size'] - len(self.chose) + int(not bool(self.chose[0]))} случайных недостающих карт')
             self.chose = choices(range(len(loaded[1])), k = 9 - len(self.chose))
         self.chose = list(map(int, self.chose[:8]))
         
@@ -48,11 +48,12 @@ class CLI():
             print(f"""      
                         {self.I.ind[ii.WR_INP]()}
                             Здоровье противника: {d_f.cards_list[FieldNames.PLAYER].hp} 
-                            Мана противника: {d_f.cards_list[FieldNames.PLAYER].mn} 
-                            Ваше здоровье: {a_f.cards_list[FieldNames.PLAYER].hp} 
-                            Ваша мана: {a_f.cards_list[FieldNames.PLAYER].mn} 
+                            Мана противника: {d_f.cards_list[FieldNames.PLAYER].mn}
+
+                            Ваше здоровье: {a_f.cards_list[FieldNames.PLAYER].hp}
+                            Ваша мана: {a_f.cards_list[FieldNames.PLAYER].mn}
                   
-                            Поле противника:        {d_f}     
+                            Поле противника:        {d_f}
                             Ваше поле:              {a_f}
 
                             На руках есть:       {hand}
@@ -68,11 +69,11 @@ class CLI():
                        """)
 
             match self.action:
-                case '1': 
+                case '1':
                     if self.choose_card_to_play(): return (self.action, int(self.chose[0]) - 1, int(self.chose[-1]) - 1)
-                case '2': 
+                case '2':
                     if self.choose_unit_to_attack(): return (self.action, int(self.chose[0]) - 1, int(self.chose[-1]) - 1)
-                case '3': 
+                case '3':
                     if self.check_card_info(): return (self.action, int(self.chose[0]), int(self.chose[-1]) - 1)
                 case '4':
                     return (self.action, None)
@@ -89,7 +90,7 @@ class CLI():
                 
                     """).split(' ')
         
-        if self.chose[0] in ('1','2','3','4') and self.chose[-1] in ('1','2','3','4','5','6'): return True
+        if self.chose[0] in tuple(map(str, range(stats['hand_size']))) and self.chose[-1] in tuple(map(str, range(stats['field_size']))): return True
         else: self.I.flag = 1
 
 
@@ -103,7 +104,7 @@ class CLI():
                 
                       """).split(' ')
         
-        if self.chose[0] in ('1','2','3','4') and self.chose[-1] in ('1','2','3','4','5'): return True
+        if self.chose[0] in tuple(map(str, range(stats['hand_size']))) and self.chose[-1] in tuple(map(str, range(stats['field_size']-1))): return True
         else: self.I.flag = 1
 
 
@@ -117,7 +118,7 @@ class CLI():
                 
                     """).split(' ')
         
-        if self.chose[0] in ('1','3') and self.chose[-1] in ('1','2','3','4') or self.chose[0] in ('2', '4') and self.chose[-1] in ('1','2','3','4','5','6'): return True
+        if self.chose[0] in ('1','3') and self.chose[-1] in tuple(map(str, range(stats['hand_size']))) or self.chose[0] in ('2', '4') and self.chose[-1] in tuple(map(str, range(stats['field_size']))): return True
         else: self.I.flag = 1
 
 
