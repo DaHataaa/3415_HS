@@ -1,4 +1,4 @@
-from src.cards import load_cards
+from test. import load_cards
 
 print(load_cards('cards/')[0]['neluhin'].name)
 

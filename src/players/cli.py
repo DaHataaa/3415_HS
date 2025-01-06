@@ -27,16 +27,16 @@ class CLI():
             Введите номера карт, которые хотите 
             видеть в колоде через пробел
             (в колоду попадут первые 8):
-                           
+
 {'\n'.join([f'{i}. {loaded[1][i]}' for i in range(len(loaded[1]))])}
 
-''').split(' ')
+        ''').split(' ')
 
         if len(self.chose) < stats['stack_size']:
             input(f'Добавлено {stats['stack_size'] - len(self.chose) + int(not bool(self.chose[0]))} случайных недостающих карт')
             self.chose = choices(range(len(loaded[1])), k = 9 - len(self.chose))
         self.chose = list(map(int, self.chose[:8]))
-        
+
         return [loaded[0][loaded[1][i]] for i in self.chose], dict(zip([loaded[1][i] for i in self.chose], [loaded[0][loaded[1][i]] for i in self.chose]))
 
 
@@ -90,7 +90,7 @@ class CLI():
                 
                     """).split(' ')
         
-        if self.chose[0] in tuple(map(str, range(stats['hand_size']))) and self.chose[-1] in tuple(map(str, range(stats['field_size']))): return True
+        if self.chose[0] in tuple(map(str, range(1, stats['hand_size']+1))) and self.chose[-1] in tuple(map(str, range(1, stats['field_size']+1))): return True
         else: self.I.flag = 1
 
 
@@ -104,7 +104,7 @@ class CLI():
                 
                       """).split(' ')
         
-        if self.chose[0] in tuple(map(str, range(stats['hand_size']))) and self.chose[-1] in tuple(map(str, range(stats['field_size']-1))): return True
+        if self.chose[0] in tuple(map(str, range(1, stats['hand_size']+1))) and self.chose[-1] in tuple(map(str, range(1, stats['field_size']))): return True
         else: self.I.flag = 1
 
 
@@ -118,7 +118,7 @@ class CLI():
                 
                     """).split(' ')
         
-        if self.chose[0] in ('1','3') and self.chose[-1] in tuple(map(str, range(stats['hand_size']))) or self.chose[0] in ('2', '4') and self.chose[-1] in tuple(map(str, range(stats['field_size']))): return True
+        if self.chose[0] in ('1','3') and self.chose[-1] in tuple(map(str, range(1, stats['hand_size']+1))) or self.chose[0] in ('2', '4') and self.chose[-1] in tuple(map(str, range(1, stats['field_size']+1))): return True
         else: self.I.flag = 1
 
 

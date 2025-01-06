@@ -20,7 +20,7 @@ class Stack:
         self.cards_origins = dict(self.cards_list)
 
     def get_top_card(self):
-        return self.cards_list[-1]
+        return self.cards_list[-1] if self.cards_list else None
 
     def push(self, card):
         self.cards_list.insert(0, card)

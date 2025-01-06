@@ -19,9 +19,9 @@ class GameServer:
         self.game_state = state if state is not None else GameState()
         self.current_phase = phase if phase is not None else GamePhase.CREATE_DECK
         self.phases = {
-        GamePhase.CREATE_DECK: self.create_deck_phase,
+        GamePhase.CREATE_DECK: self.create_deck,
         GamePhase.CURRENT_TURN: self.current_turn,
-        GamePhase.SWAP_PLAYERS: self.swap_players_phase,
+        GamePhase.SWAP_PLAYERS: self.swap_players,
         GamePhase.GAME_END: self.end_game}
 
     def run(self):
@@ -31,7 +31,7 @@ class GameServer:
     def run_one_step(self):
         self.phases[self.current_phase]()
 
-    def create_deck_phase(self):
+    def create_deck(self):
         self.game_state = GameState()
         self.game_state.deck_created()
         self.current_phase = GamePhase.CURRENT_TURN
@@ -59,7 +59,7 @@ class GameServer:
                 case 4:
                     break
 
-    def swap_players_phase(self):
+    def swap_players(self):
         self.game_state.next_turn()
         self.game_state.update_hand(self.game_state.attacker)
         self.game_state.update_hand(self.game_state.defender)

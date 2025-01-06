@@ -28,7 +28,7 @@ class Player:
 
     def form_hand(self):
         for i in range(len(self.hand.cards_list)):
-            if self.hand.cards_list[i] is None:
+            if self.hand.cards_list[i] is None and self.stack.get_top_card():
                 self.hand.cards_list[i] = self.stack.get_top_card()
                 self.stack.pop()
 

@@ -4,3 +4,4 @@ venv
 **/.venv
 **/.pytest_cache
 **/Pipfile
+**/temp.py
